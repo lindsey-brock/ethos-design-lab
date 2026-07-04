@@ -182,6 +182,7 @@
   .side-drawer.open .drawer-link:nth-child(2) { transition-delay: 0.15s; }
   .side-drawer.open .drawer-link:nth-child(3) { transition-delay: 0.2s; }
   .side-drawer.open .drawer-link:nth-child(4) { transition-delay: 0.25s; }
+  .side-drawer.open .drawer-link:nth-child(5) { transition-delay: 0.3s; }
   .drawer-link:hover { color: var(--lime); font-size: 28px; }
   .drawer-link.active { color: var(--lime); font-size: 28px; }
   .drawer-bottom {
@@ -566,7 +567,7 @@
     z-index: 0;
     pointer-events: none;
   }
-  .work-mockup .device-laptop-wrap { position: relative; z-index: 1; width: 340px; flex-shrink: 0; }
+  .work-mockup .device-laptop-wrap { position: relative; z-index: 1; width: 460px; flex-shrink: 0; }
   .work-mockup .laptop { width: 100%; position: relative; perspective: 1800px; }
   .work-mockup .laptop-tilt {
     position: relative;
@@ -590,7 +591,7 @@
     width: 1680px;
     height: 1050px;
     border: none;
-    transform: scale(0.2);
+    transform: scale(0.27);
     transform-origin: top left;
     pointer-events: none;
   }
@@ -610,8 +611,8 @@
     position: relative;
     z-index: 1;
     flex-shrink: 0;
-    width: 106px;
-    height: 220px;
+    width: 143px;
+    height: 298px;
     border: 2px solid #666;
     border-radius: 12px;
     padding: 6px 5px;
@@ -684,6 +685,64 @@
   }
 
 
+  /* BLOG */
+  .blog {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background: var(--off);
+    padding: 120px 56px;
+    box-shadow: 0 -16px 32px rgba(0,0,0,0.08);
+  }
+  .blog-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 56px;
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .blog-card {
+    position: relative; overflow: hidden;
+    background: var(--black);
+    min-height: 380px;
+    cursor: none;
+  }
+  .blog-card-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform 0.6s ease;
+    opacity: 0.5;
+  }
+  .blog-card:hover .blog-card-bg { transform: scale(1.04); opacity: 0.65; }
+  .blog-card-bg-1 { background: linear-gradient(135deg, #134D1E 0%, #0A0A0A 100%); }
+  .blog-card-bg-2 { background: linear-gradient(135deg, #1A3A2E 0%, #0A0A0A 100%); }
+  .blog-card-bg-3 { background: linear-gradient(135deg, #2A1A0A 0%, #0A0A0A 100%); }
+  .blog-card-body {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 32px;
+    background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 100%);
+  }
+  .blog-tag {
+    font-size: 8px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--lime); background: rgba(200,241,53,0.15);
+    border: 1px solid rgba(200,241,53,0.3);
+    padding: 4px 10px; display: inline-block;
+    margin-bottom: 12px;
+  }
+  .blog-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--white); letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .blog-meta {
+    font-size: 11px; color: rgba(255,255,255,0.85);
+    margin-top: 10px; letter-spacing: 0.05em;
+  }
+
   /* CTA */
   .cta {
     background: var(--black);
@@ -693,7 +752,7 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    position: relative; z-index: 4; overflow: hidden;
+    position: relative; z-index: 5; overflow: hidden;
     box-shadow: 0 -24px 48px rgba(0,0,0,0.35);
   }
   .cta-glow {
@@ -1070,6 +1129,7 @@
       <a href="#services" class="drawer-link">Services</a>
       <a href="#work" class="drawer-link">Work</a>
       <a href="#about" class="drawer-link">About</a>
+      <a href="#blog" class="drawer-link">Blog</a>
       <a href="#contact" class="drawer-link">Contact</a>
     </nav>
   </div>
@@ -1113,7 +1173,7 @@
     <div class="service-card reveal reveal-delay-3">
       <div class="service-num">03</div>
       <div class="service-name">SEO &amp; Site Performance Optimization</div>
-      <div class="service-desc">Most small businesses have no idea whether their website is actually bringing in customers — or just sitting there. We'll show you exactly how visible you are in Google search, what's costing you customers, and set up simple tracking so you can see it for yourself — then build an organic growth strategy to convert more leads into paying clients.</div>
+      <div class="service-desc">Search visibility, site speed and conversion tracking — so you know exactly how your website is performing and what to fix to turn visitors into paying customers.</div>
       <span class="service-arrow">↗</span>
     </div>
     <div class="service-card reveal reveal-delay-1">
@@ -1169,7 +1229,7 @@
           </div>
           <div class="device-phone">
             <div class="device-phone-screen">
-              <iframe src="https://www.nrg-energia.com/" title="NRG Energia — mobile" loading="lazy" sandbox="allow-scripts allow-same-origin" style="width:390px; height:844px; transform:scale(0.246); transform-origin:top left;"></iframe>
+              <iframe src="https://www.nrg-energia.com/" title="NRG Energia — mobile" loading="lazy" sandbox="allow-scripts allow-same-origin" style="width:390px; height:844px; transform:scale(0.333); transform-origin:top left;"></iframe>
             </div>
           </div>
         </div>
@@ -1205,12 +1265,12 @@
   <div class="about-left reveal">
     <div class="section-label section-label-lime" style="margin-bottom: 16px; color: var(--lime);">About us</div>
     <h2 class="about-headline">Not just a studio.<br><span>A standpoint.</span></h2>
-    <p class="about-body">We work with European SMEs and B-corps who know that <em style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.15em;color:var(--lime);">how you communicate</em> is as important as <em style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.15em;color:var(--lime);">what you communicate</em>. We don't do generic. We build identity systems that hold.</p>
+    <p class="about-body">We work with European SMEs and B-Corps who need more than a pretty website. We build brand, sites, and systems that you actually <em style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.15em;color:var(--lime);">own end-to-end</em> — no page builders, <em style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.15em;color:var(--lime);">no platform lock-in</em>, no third-party vendor holding your data hostage.</p>
     <a href="#" class="btn-lime">Our story</a>
   </div>
   <div class="about-stats reveal reveal-delay-1">
     <div class="stat-box">
-      <div class="stat-num">5+</div>
+      <div class="stat-num">2+</div>
       <div class="stat-label">Years of experience</div>
     </div>
     <div class="stat-box">
@@ -1220,13 +1280,53 @@
       <div class="stat-label">Based in Italy, working across Europe</div>
     </div>
     <div class="stat-box">
-      <div class="stat-num">5</div>
+      <div class="stat-num">3</div>
       <div class="stat-label">Languages spoken</div>
     </div>
     <div class="stat-box">
       <div class="stat-num">∞</div>
-      <div class="stat-label">Businesses that deserve better design</div>
+      <div class="stat-label">Companies that pay exorbitant third-party site maintenance fees</div>
     </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="blog" id="blog">
+  <div class="blog-header reveal">
+    <div>
+      <div class="section-label">From the studio</div>
+      <h2 class="section-title" style="margin-bottom:0;">Latest<br><span>insights.</span></h2>
+    </div>
+    <a href="#" class="work-link">View all posts</a>
+  </div>
+  <div class="blog-grid reveal">
+    <article class="blog-card">
+      <div class="blog-card-bg blog-card-bg-1"></div>
+      <div class="blog-card-body">
+        <div class="blog-tag">Web Design</div>
+        <div class="blog-title">Why most small business websites fail to convert</div>
+        <div class="blog-meta">6 min read · Jun 2026</div>
+      </div>
+      <a href="#" class="work-card-link" aria-label="Read: Why most small business websites fail to convert"></a>
+    </article>
+    <article class="blog-card">
+      <div class="blog-card-bg blog-card-bg-2"></div>
+      <div class="blog-card-body">
+        <div class="blog-tag">Brand Identity</div>
+        <div class="blog-title">Brand identity vs. just a logo: what SMEs get wrong</div>
+        <div class="blog-meta">5 min read · May 2026</div>
+      </div>
+      <a href="#" class="work-card-link" aria-label="Read: Brand identity vs. just a logo: what SMEs get wrong"></a>
+    </article>
+    <article class="blog-card">
+      <div class="blog-card-bg blog-card-bg-3"></div>
+      <div class="blog-card-body">
+        <div class="blog-tag">SEO</div>
+        <div class="blog-title">SEO basics every European SME should know in 2026</div>
+        <div class="blog-meta">7 min read · Apr 2026</div>
+      </div>
+      <a href="#" class="work-card-link" aria-label="Read: SEO basics every European SME should know in 2026"></a>
+    </article>
   </div>
 </section>
 
@@ -1504,29 +1604,34 @@
   });
 
   document.querySelectorAll('.drawer-link').forEach(link => {
-    link.addEventListener('click', () => {
-      document.querySelectorAll('.drawer-link').forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
       drawer.classList.remove('open');
+      const id = link.getAttribute('href').slice(1);
+      const top = window.__navOffsets ? window.__navOffsets[id] : document.getElementById(id).offsetTop;
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
 
-  // Highlight active section via IntersectionObserver
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        document.querySelectorAll('.drawer-link').forEach(link => {
-          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
-        });
-      }
-    });
-  }, { threshold: 0.3 });
+  // Highlight active nav link based on scroll position.
+  // (IntersectionObserver doesn't work here: stacked sticky sections stay
+  // geometrically "intersecting" the viewport even once a later section
+  // has scrolled over and hidden them. Same reason we use __navOffsets
+  // instead of offsetTop below — a stuck section's offsetTop reflects its
+  // current pinned position, not its place in document flow.)
+  const navIds = ['services', 'work', 'about', 'blog', 'contact'];
 
-  ['services', 'work', 'about', 'contact'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) sectionObserver.observe(el);
-  });
+  function updateActiveLink() {
+    const scrollPos = window.scrollY + window.innerHeight * 0.3;
+    const offsets = window.__navOffsets || {};
+    let currentId = navIds[0];
+    navIds.forEach(id => { if (offsets[id] !== undefined && offsets[id] <= scrollPos) currentId = id; });
+    document.querySelectorAll('.drawer-link').forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
+    });
+  }
+  window.addEventListener('scroll', updateActiveLink);
+  updateActiveLink();
 
   // Top nav scroll
   const topNav = document.getElementById('topNav');
@@ -2121,7 +2226,9 @@ ensureLoopRunning();
 // the pin until you've scrolled through that extra content first, so tall
 // sections still read top-to-bottom before the next section covers them.
 (function() {
-  const stackedSections = document.querySelectorAll('.hero, .services, .work, .about-strip');
+  const stackedSections = document.querySelectorAll('.hero, .services, .work, .about-strip, .blog');
+  // Matches the document order of stackedSections above.
+  const navFlowIds = ['hero', 'services', 'work', 'about', 'blog'];
 
   function adjustStickyOffsets() {
     const vh = window.innerHeight;
@@ -2131,9 +2238,30 @@ ensureLoopRunning();
     });
   }
 
-  adjustStickyOffsets();
-  window.addEventListener('resize', adjustStickyOffsets);
-  window.addEventListener('load', adjustStickyOffsets);
+  // A stuck sticky section's own offsetTop/getBoundingClientRect reflect its
+  // *current* pinned position, not its place in document flow — so they're
+  // useless for computing where to scroll a nav link to once a section has
+  // ever been scrolled past. Rebuild each section's flow position from
+  // offsetHeight (which sticky never changes) instead.
+  function computeNavOffsets() {
+    let cum = 0;
+    window.__navOffsets = {};
+    stackedSections.forEach((el, i) => {
+      window.__navOffsets[navFlowIds[i]] = cum;
+      cum += el.offsetHeight;
+    });
+    window.__navOffsets['contact'] = cum;
+  }
+
+  function refresh() {
+    adjustStickyOffsets();
+    computeNavOffsets();
+    if (typeof updateActiveLink === 'function') updateActiveLink();
+  }
+
+  refresh();
+  window.addEventListener('resize', refresh);
+  window.addEventListener('load', refresh);
 })();
 </script>
 </body>
