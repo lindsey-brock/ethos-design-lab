@@ -114,6 +114,53 @@
 
     .nav-back:hover { color: var(--lime); }
 
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* ── LANG DROPDOWN ── */
+    .lang-dropdown { position: relative; }
+    .lang-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--lime);
+      background: transparent;
+      border: 1.5px solid rgba(200,241,53,0.4);
+      padding: 11px 16px;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .lang-btn:hover { border-color: var(--lime); background: rgba(200,241,53,0.08); }
+    .lang-chevron { font-size: 10px; }
+    .lang-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: var(--black);
+      border: 1.5px solid rgba(200,241,53,0.2);
+      min-width: 140px;
+      z-index: 300;
+    }
+    .lang-item {
+      display: block;
+      padding: 10px 16px;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+    }
+    .lang-item:hover, .lang-item.active {
+      color: var(--lime);
+      background: rgba(200,241,53,0.06);
+    }
+
     /* ── HERO ── */
     .hero {
       display: flex;
@@ -2257,7 +2304,19 @@
       <div class="nav-wordmark">ETHOS DESIGN LAB</div>
     </div>
   </a>
-  <a href="../../index.html#work" class="nav-back">← All Projects</a>
+  <div class="nav-right">
+    <a href="../../index.html#work" class="nav-back">← All Projects</a>
+    <div class="lang-dropdown">
+      <button class="lang-btn">EN <span class="lang-chevron">▾</span></button>
+      <div class="lang-menu">
+        <a class="lang-item active" data-lang="EN">English</a>
+        <a class="lang-item" data-lang="IT">Italian</a>
+        <a class="lang-item" data-lang="ES">Spanish</a>
+        <a class="lang-item" data-lang="FR">French</a>
+        <a class="lang-item" data-lang="DE">German</a>
+      </div>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -3362,6 +3421,31 @@ document.addEventListener('touchmove', (e) => {
       cursor.style.width = '10px'; cursor.style.height = '10px';
       ring.style.width = '36px'; ring.style.height = '36px';
       ring.style.opacity = '0.5';
+    });
+  });
+
+  // Language dropdown
+  const langBtn = document.querySelector('.lang-btn');
+  const langMenu = document.querySelector('.lang-menu');
+
+  langBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = langMenu.style.display === 'block';
+    langMenu.style.display = isOpen ? 'none' : 'block';
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.lang-dropdown')) {
+      langMenu.style.display = 'none';
+    }
+  });
+
+  document.querySelectorAll('.lang-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.lang-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      document.querySelector('.lang-btn').childNodes[0].textContent = item.dataset.lang + ' ';
+      langMenu.style.display = 'none';
     });
   });
 </script>
