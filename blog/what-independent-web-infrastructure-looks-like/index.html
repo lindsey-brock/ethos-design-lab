@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>You Don't Own Your Website — Ethos Design Lab</title>
+<title>What Independent Web Infrastructure Actually Looks Like — Ethos Design Lab</title>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -707,54 +707,45 @@
 <article>
   <div class="article-header">
     <a href="../../index.html#blog" class="article-back">← All Insights</a>
-    <div class="article-tag">Ownership</div>
-    <h1 class="article-title">You Don't Own Your Website</h1>
-    <p class="article-deck">Why living entirely inside Squarespace, Wix, or Shopify makes you a tenant — not an owner.</p>
-    <div class="article-meta">7 min read · June 2026</div>
+    <div class="article-tag">Infrastructure</div>
+    <h1 class="article-title">What Independent Web Infrastructure Actually Looks Like</h1>
+    <p class="article-deck">The alternative to platform capture and agency lock-in — in practical terms.</p>
+    <div class="article-meta">7 min read · August 2026</div>
   </div>
 
   <div class="article-body">
-    <p>Here's a question most business owners have never actually asked themselves: if your website platform disappeared tomorrow, doubled its prices overnight, or suspended your account — what would you actually be left with?</p>
-    <p>For a lot of small businesses and B-Corps, the honest answer is: nothing. No copy of your content in a usable format. No control over your own domain routing. No way to simply "move" your site somewhere else, because there was never really a <em>site</em> to move — just a rented space inside someone else's system, dressed up to look like your own.</p>
-    <p>This is platform capture, and it's worth understanding clearly, because it's rarely explained to the people it affects most.</p>
+    <p>The first two posts in this series covered the problem from two angles: what happens when your business lives entirely inside a platform like Squarespace or Wix (<a href="../you-dont-own-your-website/index.html" style="color:var(--lime);">part one</a>), and what happens when an agency builds you something that looks custom but really isn't (<a href="../what-your-web-agency-isnt-telling-you/index.html" style="color:var(--lime);">part two</a>).</p>
+    <p>This last post asks: what does the actual alternative look like?</p>
+    <p>This matters because "independent," "custom," and "you own it" get used loosely enough in this industry that they've started to mean almost nothing on their own. So instead of adjectives, here's a list of concrete facts you can verify.</p>
 
-    <h2>What "platform capture" actually means</h2>
-    <p>When you build your business on Squarespace, Wix, Shopify, or similar all-in-one platforms, you're not really building a website. You're building <em>inside</em> someone else's product, using their tools, their infrastructure, and their rules.</p>
-    <p>That distinction sounds abstract until you look at what it actually means in practice:</p>
-    <ul>
-      <li><strong>Your content lives in their format.</strong> Export tools are often limited, and what comes out rarely resembles what you built — layouts break, custom styling disappears, and structured content becomes a mess of plain text.</li>
-      <li><strong>Your site's performance depends on their infrastructure.</strong> You didn't choose the servers, the caching strategy, or the code quality running underneath your pages. If it's slow, bloated, or has accessibility issues, that's largely out of your hands.</li>
-      <li><strong>Your pricing is their decision.</strong> Many of these platforms have quietly raised prices, restructured tiers, or pushed users toward more expensive plans over time. As a tenant, you don't get a vote.</li>
-      <li><strong>Your business depends on their continued existence.</strong> Platforms get acquired, sunset, or deprioritized. It's happened before, and businesses built entirely on top of them had no real recourse.</li>
-    </ul>
-    <p>None of this is a conspiracy. It's simply how the business model works: the platform's job is to keep you inside it, paying monthly, for as long as possible. That's not a criticism of the people who work there — it's just the incentive structure of renting.</p>
+    <h2>1. You can name your hosting provider</h2>
+    <p>Not "my agency handles that" — an actual provider, on an account with your name and your billing details attached. It might be Vercel, Netlify, a VPS, or a managed host — the specific choice matters less than the fact that you know what it is and could access it directly if you needed to.</p>
+    <p>If you can't answer "who hosts my website" without asking someone else first, that's not a small technical detail. It's the whole ballgame.</p>
 
-    <h2>"But it looks like my website"</h2>
-    <p>This is the part that catches people off guard. A well-designed Squarespace or Wix site can look completely polished, professional, and bespoke. The visual layer is genuinely yours — the colors, the photos, the words you wrote.</p>
-    <p>But underneath that layer, none of the actual <em>infrastructure</em> belongs to you. You don't own the code. You can't take your site's backend and move it to a different host. You can't hand it to a different developer and say "here, pick up where this left off," because there's no codebase to hand over — just a locked configuration inside a platform you're renting access to.</p>
-    <p>It's the digital equivalent of decorating a rented apartment beautifully and then realizing, only when you try to move, that you never actually owned the walls.</p>
+    <h2>2. Your codebase exists somewhere you control</h2>
+    <p>A real, versioned codebase — typically on GitHub or similar — that you have access to, ideally as the account owner, not a guest collaborator on someone else's account. This is what actually gets handed over at the end of a project when infrastructure is done right: not a login to a page builder, but a repository.</p>
+    <p>This is also what makes a developer relationship replaceable without being catastrophic. If your current developer becomes unavailable, retires, or you simply want to work with someone else, a new developer can open that repository and understand what they're working with. Without it, a new developer is starting from a screenshot of your old site and rebuilding from scratch — which is functionally the same as never having owned anything in the first place.</p>
 
-    <h2>Why this matters more for mission-driven businesses</h2>
-    <p>If you're a B-Corp or a values-driven SME, platform capture carries an extra layer of tension. A lot of these all-in-one platforms are US-based companies with data practices, hosting locations, and terms of service that may not reflect the standards you've built your own business around — GDPR compliance, data minimization, transparency about where customer information actually lives.</p>
-    <p>You can build the most ethical, thoughtful brand in the world, and still have your customers' data sitting on infrastructure you have no visibility into, governed by a privacy policy you didn't write and can't negotiate. That's a real gap between what a business says it stands for and what it's actually built on.</p>
+    <h2>3. Your domain is registered in your name, at a registrar you control</h2>
+    <p>Domains sometimes get registered by an agency "to make things easier" and never get transferred to the client afterward. Years later, that agency is the only entity that can technically move your domain, renew it, or point it somewhere else. Check the WHOIS record. If the registrant isn't you or your business, that's worth resolving regardless of how good the current relationship is.</p>
 
-    <h2>What ownership actually looks like</h2>
-    <p>None of this means every small business needs a custom-built, fully bespoke web application from day one — that would be overkill for plenty of businesses, and there's nothing wrong with using a page builder to get started. The problem isn't using tools. The problem is not knowing the difference between using a tool and being trapped inside one.</p>
-    <p>Real ownership looks like:</p>
-    <ul>
-      <li><strong>A codebase you actually hold</strong>, even if someone else built it for you — one that can be handed to any competent developer, not just the original platform's ecosystem.</li>
-      <li><strong>Hosting you choose</strong>, with visibility into where your data physically lives and who has access to it.</li>
-      <li><strong>A domain and infrastructure that are portable</strong> — if you want to leave a host, an email provider, or a developer, you can, without losing your site, your data, or your history.</li>
-      <li><strong>No mystery dependencies</strong> — no situation where a single company's pricing decision or shutdown notice could take your business offline.</li>
-    </ul>
-    <p>This doesn't have to be complicated or expensive. It's a different starting posture: build (or ask your developer to build) in a way where you always retain the keys, rather than being handed a beautifully decorated room you can never actually own.</p>
+    <h2>4. There's no subscription standing between you and your own site being online</h2>
+    <p>If your website stops working the moment a third-party platform subscription lapses — not your hosting bill, but a page-builder license, a premium plugin renewal, a website builder's monthly plan — that's a dependency worth knowing about explicitly, even if you're comfortable with it. The goal isn't necessarily zero dependencies; very few real systems have none. The goal is knowing exactly what they are, rather than discovering them the day something breaks.</p>
 
-    <h2>The real question to ask</h2>
-    <p>Not "does my website look good" — plenty of platform-built sites do. The question is: <strong>if I needed to leave tomorrow, could I?</strong></p>
-    <p>If the honest answer is no, that's not a reason to panic or rebuild everything overnight. It's just worth knowing clearly, so it's a choice you're making on purpose — not a dependency you backed into without realizing it.</p>
+    <h2>5. Your data has a knowable location and a knowable policy</h2>
+    <p>For a business that takes data seriously — GDPR compliance, transparency with customers, basic operational hygiene — "I don't actually know where our data lives" shouldn't be an acceptable answer. Independent infrastructure means being able to say specifically: this is where customer data is stored, this is the privacy policy governing it, and this is who has access.</p>
+
+    <h2>6. Leaving is a plan, not a crisis</h2>
+    <p>The clearest test of all: if you wrote down, right now, the steps required to move your website to a new host, a new developer, or a new agency entirely — could you actually write that list? Does it involve exporting a repository and updating DNS, or does it involve a series of increasingly tense emails asking someone else to please hand things over?</p>
+    <p>If it's the former, you're in a genuinely independent setup. If it's the latter, you're not — regardless of how the original sales conversation was framed.</p>
+
+    <h2>What this is actually for</h2>
+    <p>None of this is a purity test, and it's not a reason to distrust every agency or rebuild a perfectly functional website out of anxiety. Plenty of businesses are well-served by simpler, platform-based setups, especially early on, when speed and cost matter more than long-term independence.</p>
+    <p>The point of this series isn't "platforms bad, custom code good" as a blanket rule. It's narrower and more useful than that: <strong>you should know which one you have, on purpose, rather than discovering it under pressure</strong> — when a renewal is missed, when a relationship ends badly, or when the business has grown past what the original setup was built for.</p>
+    <p>That's the actual dividing line. Not whether your site was built on a platform or from scratch, but whether you were ever given an honest, plain-language answer to the six questions above — before you needed one.</p>
 
     <hr>
-    <p class="article-note">This is the first in a short series on digital ownership for small businesses. Next: <a href="../what-your-web-agency-isnt-telling-you/index.html" style="color:var(--lime);">what your web agency isn't telling you</a> about the hidden costs baked into "easy" website solutions.</p>
+    <p class="article-note">This closes out our short series on digital ownership for small businesses. If you're not sure how your own setup holds up against this list, that's a completely reasonable thing to want <a href="../../index.html#contact" style="color:var(--lime);">a second opinion</a> on.</p>
   </div>
 
   <section class="article-cta">
