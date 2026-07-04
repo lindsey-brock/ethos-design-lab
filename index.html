@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ethos Design Lab — Where Brand Meets Belief</title>
+<title>Ethos Design Lab — Where Ethical Design Meets Systems</title>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,7 +58,7 @@
   /* TOP NAV */
   .top-nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-    padding: 20px 40px;
+    padding: 14px 40px;
     display: flex; justify-content: space-between; align-items: center;
     background: transparent;
     transition: background 0.3s ease;
@@ -81,12 +81,12 @@
   }
   .nav-cta:hover { background: var(--lime); color: var(--black); }
   .nav-logo {
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap: 5px;
     text-decoration: none;
   }
   .nav-icon {
-    width: 36px; height: 36px;
-    background: var(--lime); border: 1.5px solid #fff;
+    width: 72px; height: 72px;
+    background: none; border: none;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
@@ -97,9 +97,9 @@
     line-height: 1;
   }
   .nav-sub {
-    font-size: 8px; font-weight: 500;
+    font-size: 9px; font-weight: 500;
     letter-spacing: 0.22em; text-transform: uppercase;
-    color: rgba(255,255,255,0.7); margin-top: 3px;
+    color: rgba(255,255,255,0.7); margin-top: 4px;
   }
 
   /* SIDE DRAWER */
@@ -236,13 +236,15 @@
 
   /* HERO */
   .hero {
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 0;
     width: 100vw;
     height: 100vh;
     background: var(--black);
     display: flex; flex-direction: column;
     justify-content: flex-end;
-    padding: 0 56px 120px;
+    padding: 0 56px 40px;
     overflow: hidden;
   }
   .hero-bg-circle {
@@ -279,7 +281,7 @@
   }
   .hero-headline {
     font-family: 'Unbounded', sans-serif;
-    font-size: clamp(52px, 8vw, 110px);
+    font-size: clamp(48px, 7.2vw, 98px);
     font-weight: 900;
     line-height: 0.92;
     letter-spacing: -0.03em;
@@ -301,12 +303,12 @@
     animation: wordReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
   .hero-headline .w-where  { animation-delay: 0.3s; color: #FFFFFF; }
-  .hero-headline .w-brand  { animation-delay: 0.9s; color: #FFFFFF; }
-  .hero-headline .w-meets  { animation-delay: 1.5s; color: #FFFFFF; }
+  .hero-headline .w-brand  { animation-delay: 0.3s; color: #FFFFFF; }
+  .hero-headline .w-meets  { animation-delay: 0.9s; color: #FFFFFF; }
   .hero-headline .w-belief {
     animation-name: beliefReveal;
     animation-duration: 3.5s;
-    animation-delay: 1.5s;
+    animation-delay: 0.9s;
     animation-fill-mode: both;
     animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
     color: #C8F135;
@@ -342,32 +344,55 @@
     padding-left: 20px;
   }
 
-  /* MARQUEE */
-  .marquee-wrap {
+  /* Tagline that glows in beside the hero tree once it finishes growing */
+  .hero-tagline {
+    position: absolute;
+    top: 46%;
+    right: 12%;
+    max-width: 300px;
+    z-index: 10;
+    font-size: 19px; font-weight: 300;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    padding-bottom: 16px;
+  }
+  .hero-tagline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
     background: var(--lime);
-    padding: 16px 0;
-    overflow: hidden;
-    white-space: nowrap;
   }
-  .marquee-track {
-    display: inline-flex;
-    animation: marquee 20s linear infinite;
+  .hero-tagline.visible::after {
+    animation: heroTaglineSwipe 0.9s cubic-bezier(0.65, 0, 0.35, 1) 1.05s forwards;
   }
-  .marquee-item {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--black);
-    padding: 0 40px;
+  @keyframes heroTaglineSwipe {
+    from { width: 0; }
+    to   { width: 100%; }
   }
-  .marquee-dot {
-    color: var(--forest);
-    font-size: 18px;
-    vertical-align: middle;
+  .hero-tagline-word {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(6px);
+  }
+  .hero-tagline.visible .hero-tagline-word {
+    animation: heroTaglineWordIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes heroTaglineWordIn {
+    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+  }
+  @media (max-width: 1100px) {
+    .hero-tagline { display: none; }
   }
 
   /* SERVICES */
   .services {
+    position: sticky;
+    top: 0;
+    z-index: 1;
     background: var(--off);
     padding: 120px 56px;
   }
@@ -440,8 +465,12 @@
 
   /* WORK */
   .work {
+    position: sticky;
+    top: 0;
+    z-index: 2;
     background: var(--white);
     padding: 120px 56px;
+    box-shadow: 0 -16px 32px rgba(0,0,0,0.08);
   }
   .work-header {
     display: flex; justify-content: space-between; align-items: flex-end;
@@ -594,9 +623,13 @@
 
   /* ABOUT STRIP */
   .about-strip {
+    position: sticky;
+    top: 0;
+    z-index: 3;
     background: var(--forest);
     padding: 100px 56px;
     min-height: 100vh;
+    box-shadow: 0 -24px 48px rgba(0,0,0,0.25);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 80px;
@@ -660,7 +693,8 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    position: relative; overflow: hidden;
+    position: relative; z-index: 4; overflow: hidden;
+    box-shadow: 0 -24px 48px rgba(0,0,0,0.35);
   }
   .cta-glow {
     position: absolute;
@@ -810,10 +844,6 @@
     from { opacity: 0; transform: translateY(30px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
   @keyframes scrollPulse {
     0%, 100% { opacity: 0.4; transform: scaleY(1); }
     50%       { opacity: 1;   transform: scaleY(1.15); }
@@ -881,20 +911,137 @@
 <nav class="top-nav" id="topNav">
   <a href="#" class="nav-logo">
     <div class="nav-icon">
-      <svg width="20" height="24" viewBox="0 0 28 36" fill="none">
-        <rect x="9.7" y="24" width="8.6" height="4" fill="#0A0A0A"/>
-        <path d="M9.7 28 Q9.7 33.3 14 33.3 Q18.3 33.3 18.3 28Z" fill="#0A0A0A"/>
-        <rect x="9" y="14" width="10" height="14" fill="none" stroke="#0A0A0A" stroke-width="1.4"/>
-        <path d="M9 28 Q9 34 14 34 Q19 34 19 28Z" fill="none" stroke="#0A0A0A" stroke-width="1.4"/>
-        <rect x="7" y="12" width="14" height="2.5" fill="none" stroke="#0A0A0A" stroke-width="1.4"/>
-        <line x1="14" y1="12" x2="14" y2="3" stroke="#0A0A0A" stroke-width="1.4" stroke-linecap="round"/>
-        <path d="M14 9 Q7 7 6 2 Q11 1 14 7Z" fill="#0A0A0A"/>
-        <path d="M14 6 Q20 4 21 1 Q17 1 14 5Z" fill="#0A0A0A"/>
-      </svg>
+      <svg width="64" height="64" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<line x1="50.00" y1="50.00" x2="50.00" y2="63.00" stroke="#C8F135" stroke-width="5.50" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="63.00" x2="54.25" y2="71.34" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="71.34" x2="59.70" y2="75.30" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="59.70" y1="75.30" x2="64.49" y2="76.06" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="64.49" y1="76.06" x2="67.82" y2="74.98" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="64.49" y1="76.06" x2="67.32" y2="78.11" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="59.70" y1="75.30" x2="61.90" y2="79.62" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="61.90" y1="79.62" x2="64.73" y2="81.68" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="61.90" y1="79.62" x2="61.90" y2="83.12" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="71.34" x2="54.25" y2="78.08" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="78.08" x2="56.45" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="56.45" y1="82.40" x2="59.28" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="56.45" y1="82.40" x2="56.45" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="78.08" x2="52.05" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="52.05" y1="82.40" x2="52.05" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="52.05" y1="82.40" x2="49.22" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="63.00" x2="45.75" y2="71.34" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="71.34" x2="45.75" y2="78.08" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="78.08" x2="47.95" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="47.95" y1="82.40" x2="50.78" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="47.95" y1="82.40" x2="47.95" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="78.08" x2="43.55" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="43.55" y1="82.40" x2="43.55" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="43.55" y1="82.40" x2="40.72" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="71.34" x2="40.30" y2="75.30" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="40.30" y1="75.30" x2="38.10" y2="79.62" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="38.10" y1="79.62" x2="38.10" y2="83.12" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="38.10" y1="79.62" x2="35.27" y2="81.68" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="40.30" y1="75.30" x2="35.51" y2="76.06" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="35.51" y1="76.06" x2="32.68" y2="78.11" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="35.51" y1="76.06" x2="32.18" y2="74.98" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="50.00" x2="50.00" y2="33.00" stroke="#C8F135" stroke-width="5.50" stroke-linecap="round" opacity="1.0"/>
+<line x1="50.00" y1="33.00" x2="44.44" y2="22.09" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="22.09" x2="37.31" y2="16.91" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.31" y1="16.91" x2="31.05" y2="15.92" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="31.05" y1="15.92" x2="26.70" y2="17.33" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="26.70" y1="17.33" x2="24.38" y2="19.66" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="26.70" y1="17.33" x2="23.45" y2="16.82" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="31.05" y1="15.92" x2="27.35" y2="13.24" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="27.35" y1="13.24" x2="24.10" y2="12.72" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="27.35" y1="13.24" x2="25.86" y2="10.31" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.31" y1="16.91" x2="34.43" y2="11.26" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="11.26" x2="30.74" y2="8.58" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="30.74" y1="8.58" x2="27.49" y2="8.06" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="30.74" y1="8.58" x2="29.24" y2="5.64" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="11.26" x2="34.43" y2="6.69" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="6.69" x2="32.94" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="6.69" x2="35.93" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="22.09" x2="44.44" y2="13.28" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="13.28" x2="41.56" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="7.63" x2="37.87" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.87" y1="4.94" x2="34.62" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.87" y1="4.94" x2="36.37" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="7.63" x2="41.56" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="3.06" x2="40.07" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="3.06" x2="43.06" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="13.28" x2="47.32" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="7.63" x2="47.32" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="3.06" x2="45.83" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="3.06" x2="48.82" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="7.63" x2="51.02" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="51.02" y1="4.94" x2="52.51" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="51.02" y1="4.94" x2="54.27" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="50.00" y1="33.00" x2="55.56" y2="22.09" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="22.09" x2="55.56" y2="13.28" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="13.28" x2="52.68" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="7.63" x2="48.98" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="48.98" y1="4.94" x2="45.73" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="48.98" y1="4.94" x2="47.49" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="7.63" x2="52.68" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="3.06" x2="51.18" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="3.06" x2="54.17" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="13.28" x2="58.44" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="7.63" x2="58.44" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="3.06" x2="56.94" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="3.06" x2="59.93" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="7.63" x2="62.13" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.13" y1="4.94" x2="63.63" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.13" y1="4.94" x2="65.38" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="22.09" x2="62.69" y2="16.91" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.69" y1="16.91" x2="65.57" y2="11.26" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="11.26" x2="65.57" y2="6.69" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="6.69" x2="64.07" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="6.69" x2="67.06" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="11.26" x2="69.26" y2="8.58" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="69.26" y1="8.58" x2="70.76" y2="5.64" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="69.26" y1="8.58" x2="72.51" y2="8.06" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.69" y1="16.91" x2="68.95" y2="15.92" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="68.95" y1="15.92" x2="72.65" y2="13.24" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="72.65" y1="13.24" x2="74.14" y2="10.31" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="72.65" y1="13.24" x2="75.90" y2="12.72" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="68.95" y1="15.92" x2="73.30" y2="17.33" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="73.30" y1="17.33" x2="76.55" y2="16.82" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="73.30" y1="17.33" x2="75.62" y2="19.66" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<circle cx="24.38" cy="19.66" r="2.0" fill="#D6FA64"/>
+<circle cx="23.45" cy="16.82" r="2.0" fill="#D6FA64"/>
+<circle cx="24.10" cy="12.72" r="2.0" fill="#D6FA64"/>
+<circle cx="25.86" cy="10.31" r="2.0" fill="#D6FA64"/>
+<circle cx="27.49" cy="8.06" r="2.0" fill="#D6FA64"/>
+<circle cx="29.24" cy="5.64" r="2.0" fill="#D6FA64"/>
+<circle cx="32.94" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="35.93" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="34.62" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="36.37" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="40.07" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="43.06" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="45.83" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="48.82" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="52.51" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="54.27" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="45.73" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="47.49" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="51.18" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="54.17" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="56.94" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="59.93" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="63.63" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="65.38" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="64.07" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="67.06" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="70.76" cy="5.64" r="2.0" fill="#D6FA64"/>
+<circle cx="72.51" cy="8.06" r="2.0" fill="#D6FA64"/>
+<circle cx="74.14" cy="10.31" r="2.0" fill="#D6FA64"/>
+<circle cx="75.90" cy="12.72" r="2.0" fill="#D6FA64"/>
+<circle cx="76.55" cy="16.82" r="2.0" fill="#D6FA64"/>
+<circle cx="75.62" cy="19.66" r="2.0" fill="#D6FA64"/>
+</svg>
     </div>
     <div>
       <div class="nav-wordmark">ETHOS DESIGN LAB</div>
-      <div class="nav-sub">Design &amp; Communications</div>
     </div>
   </a>
   <div style="display:flex;align-items:center;gap:8px;">
@@ -933,36 +1080,16 @@
   <canvas id="mCanvas"></canvas>
   <div class="hero-bg-circle"></div>
   <div class="hero-bg-circle2"></div>
+  <div class="hero-tagline" id="heroTagline"><span class="hero-tagline-word" style="animation-delay:0s">Design</span> <span class="hero-tagline-word" style="animation-delay:0.07s">and</span> <span class="hero-tagline-word" style="animation-delay:0.14s">digital</span> <span class="hero-tagline-word" style="animation-delay:0.21s">infrastructure</span> <span class="hero-tagline-word" style="animation-delay:0.28s">for</span> <span class="hero-tagline-word" style="animation-delay:0.35s">mission-driven</span> <span class="hero-tagline-word" style="animation-delay:0.42s">European</span> <span class="hero-tagline-word" style="animation-delay:0.49s">businesses.</span></div>
 <h1 class="hero-headline">
-    <span class="w-where">Where</span>
-    <span class="w-brand">brand</span><br>
-    <span class="w-meets">meets</span><br>
-    <span class="w-belief">belief.</span>
+    <span class="w-brand">Ethical<br>Design</span><br>
+    <span class="w-meets">Meets</span><br>
+    <span class="w-belief">Systems</span>
   </h1>
   <div class="hero-bottom">
     <p class="hero-sub">Bold design and strategic communications for European SMEs and B-corps <em style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.15em;color:var(--lime);">building what comes next</em>.</p>
   </div>
 </section>
-
-<!-- MARQUEE -->
-<div class="marquee-wrap" id="marquee">
-  <div class="marquee-track">
-    <span class="marquee-item">Brand Identity <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">Web Design <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">Communications Strategy <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">B-Corps <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">European SMEs <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">Sustainability <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">Impact Design <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">Brand Identity <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">Web Design <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">Communications Strategy <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">B-Corps <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">European SMEs <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">Sustainability <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">Impact Design <span class="marquee-dot">·</span></span>
-  </div>
-</div>
 
 <!-- SERVICES -->
 <section class="services" id="services">
@@ -985,8 +1112,8 @@
     </div>
     <div class="service-card reveal reveal-delay-3">
       <div class="service-num">03</div>
-      <div class="service-name">Custom Web Applications</div>
-      <div class="service-desc">PWA, Android and iOS builds — from smart home apps powered by local AI, to marketplaces, to ridesharing platforms, to whatever else you can dream up.</div>
+      <div class="service-name">SEO &amp; Site Performance Optimization</div>
+      <div class="service-desc">Most small businesses have no idea whether their website is actually bringing in customers — or just sitting there. We'll show you exactly how visible you are in Google search, what's costing you customers, and set up simple tracking so you can see it for yourself — then build an organic growth strategy to convert more leads into paying clients.</div>
       <span class="service-arrow">↗</span>
     </div>
     <div class="service-card reveal reveal-delay-1">
@@ -1142,18 +1269,139 @@
 <footer>
   <div class="footer-logo">
     <div class="nav-icon">
-      <svg width="16" height="20" viewBox="0 0 28 36" fill="none">
-        <rect x="9.7" y="24" width="8.6" height="4" fill="#0A0A0A"/>
-        <path d="M9.7 28 Q9.7 33.3 14 33.3 Q18.3 33.3 18.3 28Z" fill="#0A0A0A"/>
-        <rect x="9" y="14" width="10" height="14" fill="none" stroke="#0A0A0A" stroke-width="1.4"/>
-        <path d="M9 28 Q9 34 14 34 Q19 34 19 28Z" fill="none" stroke="#0A0A0A" stroke-width="1.4"/>
-        <rect x="7" y="12" width="14" height="2.5" fill="none" stroke="#0A0A0A" stroke-width="1.4"/>
-        <line x1="14" y1="12" x2="14" y2="3" stroke="#0A0A0A" stroke-width="1.4"/>
-        <path d="M14 9 Q7 7 6 2 Q11 1 14 7Z" fill="#0A0A0A"/>
-        <path d="M14 6 Q20 4 21 1 Q17 1 14 5Z" fill="#0A0A0A"/>
-      </svg>
+      <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<line x1="50.00" y1="50.00" x2="50.00" y2="63.00" stroke="#C8F135" stroke-width="5.50" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="63.00" x2="54.25" y2="71.34" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="71.34" x2="59.70" y2="75.30" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="59.70" y1="75.30" x2="64.49" y2="76.06" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="64.49" y1="76.06" x2="67.82" y2="74.98" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="64.49" y1="76.06" x2="67.32" y2="78.11" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="59.70" y1="75.30" x2="61.90" y2="79.62" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="61.90" y1="79.62" x2="64.73" y2="81.68" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="61.90" y1="79.62" x2="61.90" y2="83.12" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="71.34" x2="54.25" y2="78.08" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="78.08" x2="56.45" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="56.45" y1="82.40" x2="59.28" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="56.45" y1="82.40" x2="56.45" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="78.08" x2="52.05" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="52.05" y1="82.40" x2="52.05" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="52.05" y1="82.40" x2="49.22" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="63.00" x2="45.75" y2="71.34" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="71.34" x2="45.75" y2="78.08" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="78.08" x2="47.95" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="47.95" y1="82.40" x2="50.78" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="47.95" y1="82.40" x2="47.95" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="78.08" x2="43.55" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="43.55" y1="82.40" x2="43.55" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="43.55" y1="82.40" x2="40.72" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="71.34" x2="40.30" y2="75.30" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="40.30" y1="75.30" x2="38.10" y2="79.62" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="38.10" y1="79.62" x2="38.10" y2="83.12" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="38.10" y1="79.62" x2="35.27" y2="81.68" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="40.30" y1="75.30" x2="35.51" y2="76.06" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="35.51" y1="76.06" x2="32.68" y2="78.11" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="35.51" y1="76.06" x2="32.18" y2="74.98" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="50.00" x2="50.00" y2="33.00" stroke="#C8F135" stroke-width="5.50" stroke-linecap="round" opacity="1.0"/>
+<line x1="50.00" y1="33.00" x2="44.44" y2="22.09" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="22.09" x2="37.31" y2="16.91" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.31" y1="16.91" x2="31.05" y2="15.92" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="31.05" y1="15.92" x2="26.70" y2="17.33" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="26.70" y1="17.33" x2="24.38" y2="19.66" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="26.70" y1="17.33" x2="23.45" y2="16.82" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="31.05" y1="15.92" x2="27.35" y2="13.24" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="27.35" y1="13.24" x2="24.10" y2="12.72" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="27.35" y1="13.24" x2="25.86" y2="10.31" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.31" y1="16.91" x2="34.43" y2="11.26" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="11.26" x2="30.74" y2="8.58" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="30.74" y1="8.58" x2="27.49" y2="8.06" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="30.74" y1="8.58" x2="29.24" y2="5.64" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="11.26" x2="34.43" y2="6.69" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="6.69" x2="32.94" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="6.69" x2="35.93" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="22.09" x2="44.44" y2="13.28" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="13.28" x2="41.56" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="7.63" x2="37.87" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.87" y1="4.94" x2="34.62" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.87" y1="4.94" x2="36.37" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="7.63" x2="41.56" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="3.06" x2="40.07" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="3.06" x2="43.06" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="13.28" x2="47.32" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="7.63" x2="47.32" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="3.06" x2="45.83" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="3.06" x2="48.82" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="7.63" x2="51.02" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="51.02" y1="4.94" x2="52.51" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="51.02" y1="4.94" x2="54.27" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="50.00" y1="33.00" x2="55.56" y2="22.09" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="22.09" x2="55.56" y2="13.28" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="13.28" x2="52.68" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="7.63" x2="48.98" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="48.98" y1="4.94" x2="45.73" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="48.98" y1="4.94" x2="47.49" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="7.63" x2="52.68" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="3.06" x2="51.18" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="3.06" x2="54.17" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="13.28" x2="58.44" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="7.63" x2="58.44" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="3.06" x2="56.94" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="3.06" x2="59.93" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="7.63" x2="62.13" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.13" y1="4.94" x2="63.63" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.13" y1="4.94" x2="65.38" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="22.09" x2="62.69" y2="16.91" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.69" y1="16.91" x2="65.57" y2="11.26" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="11.26" x2="65.57" y2="6.69" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="6.69" x2="64.07" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="6.69" x2="67.06" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="11.26" x2="69.26" y2="8.58" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="69.26" y1="8.58" x2="70.76" y2="5.64" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="69.26" y1="8.58" x2="72.51" y2="8.06" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.69" y1="16.91" x2="68.95" y2="15.92" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="68.95" y1="15.92" x2="72.65" y2="13.24" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="72.65" y1="13.24" x2="74.14" y2="10.31" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="72.65" y1="13.24" x2="75.90" y2="12.72" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="68.95" y1="15.92" x2="73.30" y2="17.33" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="73.30" y1="17.33" x2="76.55" y2="16.82" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="73.30" y1="17.33" x2="75.62" y2="19.66" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<circle cx="24.38" cy="19.66" r="2.0" fill="#D6FA64"/>
+<circle cx="23.45" cy="16.82" r="2.0" fill="#D6FA64"/>
+<circle cx="24.10" cy="12.72" r="2.0" fill="#D6FA64"/>
+<circle cx="25.86" cy="10.31" r="2.0" fill="#D6FA64"/>
+<circle cx="27.49" cy="8.06" r="2.0" fill="#D6FA64"/>
+<circle cx="29.24" cy="5.64" r="2.0" fill="#D6FA64"/>
+<circle cx="32.94" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="35.93" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="34.62" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="36.37" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="40.07" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="43.06" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="45.83" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="48.82" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="52.51" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="54.27" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="45.73" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="47.49" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="51.18" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="54.17" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="56.94" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="59.93" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="63.63" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="65.38" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="64.07" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="67.06" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="70.76" cy="5.64" r="2.0" fill="#D6FA64"/>
+<circle cx="72.51" cy="8.06" r="2.0" fill="#D6FA64"/>
+<circle cx="74.14" cy="10.31" r="2.0" fill="#D6FA64"/>
+<circle cx="75.90" cy="12.72" r="2.0" fill="#D6FA64"/>
+<circle cx="76.55" cy="16.82" r="2.0" fill="#D6FA64"/>
+<circle cx="75.62" cy="19.66" r="2.0" fill="#D6FA64"/>
+</svg>
     </div>
-    <div class="footer-wordmark">ETHOS DESIGN LAB</div>
+    <div>
+      <div class="footer-wordmark">ETHOS DESIGN LAB</div>
+      <div class="nav-sub">Design. Systems. Infrastructure.</div>
+    </div>
   </div>
   <ul class="footer-links">
     <li><a href="#">Work</a></li>
@@ -1530,243 +1778,363 @@
 </script>
 
 <script>
-// ─── MURMURATION ENGINE ───────────────────────────────────────────────────────
+// ─── TREE GROWTH ENGINE ───────────────────────────────────────────────────────
 
 const canvas = document.getElementById('mCanvas');
 const ctx = canvas.getContext('2d');
 
-let W, H, textZone;
-let birds = [];
-let phase = 'flock';
-let phaseTimer = 0;
-
-const N_BIRDS = 3600;
-
 function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-  const el = document.querySelector('.hero-bottom');
-  if (el) {
-    const rect = el.getBoundingClientRect();
-    textZone = { x: rect.left, y: rect.top, w: rect.width || W * 0.42, h: rect.height || H * 0.20 };
-  } else {
-    textZone = { x: W * 0.05, y: H * 0.63, w: W * 0.42, h: H * 0.20 };
-  }
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  initGrowth();
+  if (typeof ensureLoopRunning === 'function') ensureLoopRunning();
 }
-resize();
 window.addEventListener('resize', resize);
-window.addEventListener('load', () => setTimeout(resize, 100));
 
+const LIME = [200, 241, 53];
+const LEAF = [214, 250, 100];
+const IS_DESKTOP = window.innerWidth >= 1024;
 
-class MBird {
-  constructor() { this.reset(); }
+// declared here (before resize/initGrowth run) so ensureLoopRunning has
+// valid values the first time resize() calls it on page load
+let lastTime = performance.now();
+let loopActive = false;
+let rafId = null;
+// production-lean cap — raised now that live shadowBlur (the actual
+// performance bottleneck) has been removed; the canvas comfortably handles
+// a denser tree without it, which also gives roots more room to survive pruning
+const MAX_SEGMENTS = 1600;
 
-  reset() {
-    const spread = 300;
-    this.x = W + Math.random() * 200 - Math.random() * spread;
-    this.y = H + Math.random() * 200 - Math.random() * spread;
-    const baseAngle = Math.PI + Math.PI * 0.25;
-    const angleSpread = 0.9;
-    const angle = baseAngle + (Math.random() - 0.5) * angleSpread;
-    const spd = 1.8 + Math.random() * 2.8;
-    this.vx = Math.cos(angle) * spd;
-    this.vy = Math.sin(angle) * spd;
-    this.maxSpeed = 3.0 + Math.random() * 2.2;
-    this.size = 0.4 + Math.random() ** 2 * 2.2;
-    this.alpha = 0.4 + Math.random() * 0.6;
-    this.spawnDelay = Math.random() * 90;
-    const edge = Math.floor(Math.random() * 4);
-    if (edge === 0) { this.scatterTx = Math.random() * W; this.scatterTy = -80; }
-    else if (edge === 1) { this.scatterTx = W + 80; this.scatterTy = Math.random() * H; }
-    else if (edge === 2) { this.scatterTx = Math.random() * W; this.scatterTy = H + 80; }
-    else { this.scatterTx = -80; this.scatterTy = Math.random() * H; }
+let speedMult = 4;
+let branchAngleDeg = 25;
+let symmetry = 8;
+let sizePct = 70;
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+// Pre-rendered glow sprites — drawImage is far cheaper than live shadowBlur
+// on every stroke/fill call, which is the single biggest cost in the original version.
+function makeGlowSprite(rgb, size) {
+  const off = document.createElement('canvas');
+  off.width = off.height = size;
+  const octx = off.getContext('2d');
+  const [r, g, b] = rgb;
+  const grad = octx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  grad.addColorStop(0, `rgba(${r},${g},${b},0.85)`);
+  grad.addColorStop(0.5, `rgba(${r},${g},${b},0.25)`);
+  grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
+  octx.fillStyle = grad;
+  octx.fillRect(0, 0, size, size);
+  return off;
+}
+const TIP_GLOW = makeGlowSprite(LIME, 48);
+const LEAF_GLOW = makeGlowSprite(LEAF, 24);
+
+class Leaf {
+  constructor(x, y, angle, birthTime) {
+    this.x = x;
+    this.y = y;
+    this.angle = angle + (Math.random() - 0.5) * 1.2;
+    this.birthTime = birthTime;
+    this.size = 0;
+    this.targetSize = 3 + Math.random() * 3.5;
+    this.opacity = 0;
   }
-
-  setGatherTarget() {
-    const cx = textZone.x + textZone.w / 2;
-    const cy = textZone.y + textZone.h / 2;
-    const radius = textZone.w * 0.38;
-    const r = Math.sqrt(Math.random()) * radius * (0.7 + Math.random() * 0.4);
-    const a = Math.random() * Math.PI * 2;
-    const wobble = 1 + (Math.random() - 0.5) * 0.35;
-    this.gatherX = cx + Math.cos(a) * r * wobble;
-    this.gatherY = cy + Math.sin(a) * r * 0.65 * wobble;
+  update(clock) {
+    const age = clock - this.birthTime;
+    if (age < 0) return;
+    const t = Math.min(1, age / 500);
+    const eased = easeOutCubic(t);
+    this.size = this.targetSize * eased;
+    this.opacity = eased;
   }
-
-  update() {
-    if (mFrame < this.spawnDelay) return;
-
-    if (phase === 'flock') {
-      this.applyFlocking();
-      this.applyEdgeWrap();
-    } else if (phase === 'gather') {
-      const dx = this.gatherX - this.x;
-      const dy = this.gatherY - this.y;
-      const dist = Math.sqrt(dx * dx + dy * dy) + 1;
-      const pull = 0.06 + Math.min(0.3, 60 / dist);
-      this.vx += (dx / dist) * pull * dist * 0.012;
-      this.vy += (dy / dist) * pull * dist * 0.012;
-      this.applyFlocking(0.25);
-      this.applyEdgeWrap();
-    } else if (phase === 'burst') {
-      this.alpha -= 0.016;
-      this.vx *= 0.96;
-      this.vy *= 0.96;
-    }
-
-    const spd = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-    if (spd > this.maxSpeed) {
-      this.vx = (this.vx / spd) * this.maxSpeed;
-      this.vy = (this.vy / spd) * this.maxSpeed;
-    }
-    this.x += this.vx;
-    this.y += this.vy;
-  }
-
-  applyFlocking(weight = 1.0) {
-    let sepX = 0, sepY = 0, aliVx = 0, aliVy = 0;
-    let sepCount = 0, nearCount = 0;
-    const SEP_RADIUS = 14, ALI_RADIUS = 48;
-    const neighbors = getNeighbors(this, ALI_RADIUS);
-    for (let b of neighbors) {
-      const dx = b.x - this.x, dy = b.y - this.y;
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d === 0) continue;
-      if (d < SEP_RADIUS) { sepX -= dx / d; sepY -= dy / d; sepCount++; }
-      if (d < ALI_RADIUS) { aliVx += b.vx; aliVy += b.vy; nearCount++; }
-    }
-    const SEP_F = 0.07 * weight, ALI_F = 0.016 * weight;
-    if (sepCount > 0) { this.vx += (sepX / sepCount) * SEP_F; this.vy += (sepY / sepCount) * SEP_F; }
-    if (nearCount > 0) { this.vx += ((aliVx / nearCount) - this.vx) * ALI_F; this.vy += ((aliVy / nearCount) - this.vy) * ALI_F; }
-    this.vx += (Math.random() - 0.5) * 0.18;
-    this.vy += (Math.random() - 0.5) * 0.18;
-  }
-
-  applyEdgeWrap() {
-    const M = 60;
-    if (this.x < -M) this.x = W + M;
-    if (this.x > W + M) this.x = -M;
-    if (this.y < -M) this.y = H + M;
-    if (this.y > H + M) this.y = -M;
-  }
-
-  draw() {
-    if (mFrame < this.spawnDelay) return;
-    if (this.alpha <= 0) return;
-    const r = (phase === 'burst' && phaseTimer < 10) ? this.size * 3.5 : this.size;
-    const x = this.x, y = this.y, a = this.alpha;
-    const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 3.5);
-    grd.addColorStop(0,   `rgba(220, 255, 80, ${a * 0.55})`);
-    grd.addColorStop(0.4, `rgba(200, 241, 53, ${a * 0.18})`);
-    grd.addColorStop(1,   `rgba(200, 241, 53, 0)`);
+  draw(ctx) {
+    if (this.opacity <= 0) return;
+    const [r, g, b] = LEAF;
+    // no glow sprite here — with hundreds of leaves this close together,
+    // overlapping glows merged into one solid blob once growth froze.
+    // A clean flat fill keeps individual leaves readable as leaves.
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
     ctx.beginPath();
-    ctx.arc(x, y, r * 3.5, 0, Math.PI * 2);
-    ctx.fillStyle = grd;
+    ctx.ellipse(0, 0, this.size, this.size * 0.55, 0, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r},${g},${b},${this.opacity * 0.9})`;
     ctx.fill();
+    ctx.restore();
+  }
+}
+
+class Segment {
+  // birthTime: the global clock value at which this segment starts growing (continuous, not phase-gated)
+  constructor(x, y, angle, length, width, depth, maxDepth, birthTime, isRoot) {
+    this.x = x;
+    this.y = y;
+    this.angle = angle;
+    this.length = length;
+    this.width = width;
+    this.depth = depth;
+    this.maxDepth = maxDepth;
+    this.birthTime = birthTime;
+    this.isRoot = isRoot;
+    this.progress = 0;
+    this.finished = false;
+    this.spawned = false;
+    this.endX = x;
+    this.endY = y;
+    this.opacity = Math.max(0.3, 1 - depth * 0.08);
+    this.jitter = (Math.random() - 0.5) * (1 - symmetry / 10) * 0.6;
+    this.bow = (Math.random() - 0.5) * length * 0.18 * (1 - symmetry / 10 + 0.15);
+    // duration this segment takes to fully extend
+    this.duration = Math.max(180, (900 - speedMult * 60) / (1 + depth * 0.1));
+  }
+
+  update(clock, spawnFn, leafFn) {
+    const age = clock - this.birthTime;
+    if (age < 0) return;
+
+    const t = Math.min(1, age / this.duration);
+    this.progress = easeOutCubic(t);
+
+    this.endX = this.x + Math.cos(this.angle) * this.length * this.progress;
+    this.endY = this.y + Math.sin(this.angle) * this.length * this.progress;
+
+    // spawn children while THIS branch is still finishing its own growth (overlap),
+    // instead of waiting for full completion — this is what removes the "phase" stepping
+    const spawnThreshold = 0.62;
+    if (t >= spawnThreshold && !this.spawned) {
+      this.spawned = true;
+
+      if (this.depth < this.maxDepth) {
+        const nextLen = this.length * (0.75 + Math.random() * 0.06);
+        const nextWidth = this.width * 0.7;
+        const angleStep = (branchAngleDeg * Math.PI / 180) * (0.85 + Math.random() * 0.3 * (1 - symmetry / 10));
+        // children begin growing immediately (small stagger), overlapping the parent's own finish
+        const childStart = clock + Math.random() * 60;
+
+        spawnFn(new Segment(
+          this.endX, this.endY, this.angle - angleStep + this.jitter,
+          nextLen, nextWidth, this.depth + 1, this.maxDepth, childStart, this.isRoot
+        ));
+        spawnFn(new Segment(
+          this.endX, this.endY, this.angle + angleStep + this.jitter,
+          nextLen, nextWidth, this.depth + 1, this.maxDepth, childStart + Math.random() * 40, this.isRoot
+        ));
+
+        // extra branch chance — boosted at lower/earlier depths so the crown fills out
+        // near the base and middle, not just at the outermost tips
+        const lowDepthBoost = this.depth <= 3 ? 0.4 : 0;
+        const extraChance = (this.isRoot ? 0.55 : 0.45) + lowDepthBoost;
+        if (this.depth > 0 && this.depth < this.maxDepth - 1 && Math.random() < (1 - symmetry / 10 + 0.25) * extraChance) {
+          spawnFn(new Segment(
+            this.endX, this.endY, this.angle + (Math.random() - 0.5) * 0.35,
+            nextLen * 0.85, nextWidth * 0.85, this.depth + 1, this.maxDepth,
+            childStart + Math.random() * 80, this.isRoot
+          ));
+        }
+        // a second occasional extra branch lower on the crown for fuller mid-tree growth
+        if (!this.isRoot && this.depth >= 1 && this.depth <= 4 && Math.random() < 0.3) {
+          spawnFn(new Segment(
+            this.endX, this.endY, this.angle + (Math.random() - 0.5) * 1.4,
+            nextLen * 0.7, nextWidth * 0.75, this.depth + 1, this.maxDepth,
+            childStart + Math.random() * 100, this.isRoot
+          ));
+        }
+
+        // sprout leaves along mid-tree branches too, not only at the terminal tips
+        // (denser on desktop, where there's room to render a fuller canopy without
+        // the per-leaf cost hurting smaller/lower-powered mobile devices)
+        const midLeafChance = IS_DESKTOP ? 0.85 : 0.5;
+        const midLeafCount = IS_DESKTOP ? 2 + (Math.random() < 0.5 ? 1 : 0) : 1;
+        if (!this.isRoot && this.depth >= 2 && Math.random() < midLeafChance) {
+          for (let i = 0; i < midLeafCount; i++) {
+            const jx = this.endX + (Math.random() - 0.5) * 10;
+            const jy = this.endY + (Math.random() - 0.5) * 10;
+            leafFn(new Leaf(jx, jy, this.angle, clock + 60 + Math.random() * 220));
+          }
+        }
+      } else if (!this.isRoot) {
+        const tipLeafCount = IS_DESKTOP ? 3 : 1;
+        for (let i = 0; i < tipLeafCount; i++) {
+          const jx = this.endX + (Math.random() - 0.5) * 8;
+          const jy = this.endY + (Math.random() - 0.5) * 8;
+          leafFn(new Leaf(jx, jy, this.angle, clock + 40 + Math.random() * 60));
+        }
+      }
+    }
+
+    if (t >= 1) this.finished = true;
+  }
+
+  draw(ctx) {
+    if (this.progress <= 0) return;
+    const [r, g, b] = LIME;
+
+    const midX = (this.x + this.endX) / 2 + Math.cos(this.angle + Math.PI / 2) * this.bow * this.progress;
+    const midY = (this.y + this.endY) / 2 + Math.sin(this.angle + Math.PI / 2) * this.bow * this.progress;
+
     ctx.beginPath();
-    ctx.arc(x, y, r * 0.55, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(240, 255, 180, ${a})`;
-    ctx.fill();
-    if (this.size > 1.1) {
-      const arm = r * 2.2;
-      ctx.strokeStyle = `rgba(220, 255, 100, ${a * 0.5})`;
-      ctx.lineWidth = 0.5;
+    ctx.moveTo(this.x, this.y);
+    ctx.quadraticCurveTo(midX, midY, this.endX, this.endY);
+    ctx.strokeStyle = `rgba(${r},${g},${b},${this.opacity})`;
+    ctx.lineWidth = Math.max(0.5, this.width);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+    // no shadowBlur here — this call runs on every one of ~1000+ segments per
+    // frame, so a live blur here was the single biggest cost in the animation
+
+    if (!this.finished) {
+      // sprite-based glow only on active growth fronts (a handful at a time, not all segments)
+      const glowSize = (this.width + 4) * 6;
+      ctx.globalAlpha = Math.min(1, this.opacity + 0.2);
+      ctx.drawImage(TIP_GLOW, this.endX - glowSize / 2, this.endY - glowSize / 2, glowSize, glowSize);
+      ctx.globalAlpha = 1;
+
       ctx.beginPath();
-      ctx.moveTo(x - arm, y); ctx.lineTo(x + arm, y);
-      ctx.moveTo(x, y - arm); ctx.lineTo(x, y + arm);
-      ctx.stroke();
+      ctx.arc(this.endX, this.endY, this.width * 1.05 + 0.7, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(1, this.opacity + 0.35)})`;
+      ctx.fill();
     }
   }
 }
 
-for (let i = 0; i < N_BIRDS; i++) birds.push(new MBird());
+let segments = [];
+let leaves = [];
+let clock = 0;
 
-const PHASE_FLOCK  = 480;
-const PHASE_GATHER = 220;
-const PHASE_BURST  = 55;
+function initGrowth() {
+  segments = [];
+  leaves = [];
+  clock = 0;
 
-let mFrame = 0;
+  const cx = canvas.width * 0.56;
+  const baseY = canvas.height * 0.58;
 
-function setPhase(p) {
-  phase = p;
-  phaseTimer = 0;
-  if (p === 'gather') birds.forEach(b => b.setGatherTarget());
-  if (p === 'burst') {
-    document.querySelector('.hero-bottom').classList.add('visible');
-    canvas.style.zIndex = '0';
-    const cx = textZone.x + textZone.w / 2;
-    const cy = textZone.y + textZone.h / 2;
-    birds.forEach(b => {
-      const dx = b.x - cx, dy = b.y - cy;
-      const dist = Math.sqrt(dx*dx + dy*dy) + 1;
-      const power = 9 + Math.random() * 15;
-      b.vx = (dx/dist)*power + (Math.random()-0.5)*7;
-      b.vy = (dy/dist)*power + (Math.random()-0.5)*7;
-      b.maxSpeed = 26;
-      b.alpha = 0.95;
+  // margins so the tree never draws outside the visible canvas
+  const marginX = canvas.width * 0.06;
+  const marginTop = canvas.height * 0.06;
+  const marginBottom = canvas.height * 0.04;
+
+  const availableUp = baseY - marginTop;
+  const availableDown = (canvas.height - marginBottom) - baseY;
+  const availableWide = Math.min(cx, canvas.width - cx) - marginX;
+
+  const trunkMaxDepth = 8;
+  const rootMaxDepth = 7;
+
+  // A fractal tree with ~0.75 length decay and branching angle spreads
+  // reaches roughly 2.3x the trunk length vertically and slightly less horizontally
+  // at these depths — divide by that empirical reach factor so the WHOLE tree
+  // (not just the trunk) fits inside the available space.
+  const reachFactor = 2.3;
+  const fit = (sizePct / 100);
+
+  const trunkLen = Math.min(availableUp / reachFactor, availableWide / reachFactor) * fit;
+  const rootLen = Math.min(availableDown / (reachFactor * 0.8), availableWide / reachFactor) * fit * 0.85;
+
+  segments.push(new Segment(cx, baseY, -Math.PI / 2, trunkLen, Math.max(5, trunkLen * 0.05), 0, trunkMaxDepth, 0, false));
+  segments.push(new Segment(cx, baseY, Math.PI / 2, rootLen, Math.max(4, rootLen * 0.05), 0, rootMaxDepth, 300, true));
+}
+
+resize();
+
+function ensureLoopRunning() {
+  if (!loopActive) {
+    loopActive = true;
+    lastTime = performance.now();
+    rafId = requestAnimationFrame(animate);
+  }
+}
+
+function animate(now) {
+  let dt = now - lastTime;
+  dt = Math.min(dt, 50);
+  lastTime = now;
+  clock += dt;
+
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const newSegments = [];
+  const newLeaves = [];
+  segments.forEach(s => s.update(clock, (child) => newSegments.push(child), (leaf) => newLeaves.push(leaf)));
+  segments.push(...newSegments);
+  leaves.push(...newLeaves);
+
+  segments.forEach(s => s.draw(ctx));
+  leaves.forEach(l => { l.update(clock); l.draw(ctx); });
+
+  if (segments.length > MAX_SEGMENTS) {
+    // Third fix: two remaining problems.
+    // 1) The crown has far more total nodes than the roots (extra leaf/branch
+    //    chances live only on the crown side), so a single shared prune budget
+    //    let the crown's sheer volume crowd out root twigs almost entirely.
+    // 2) MAX_SEGMENTS was tuned back when live shadowBlur was the bottleneck;
+    //    now that it's gone, the canvas can afford a higher cap, so pruning
+    //    doesn't need to be this aggressive in the first place.
+    const protectedSegs = segments.filter(s => s.depth <= 3 || !s.finished);
+    const remainingBudget = Math.max(0, MAX_SEGMENTS - protectedSegs.length);
+
+    const prunableRoots = segments.filter(s => s.isRoot && s.depth > 3 && s.finished)
+      .sort((a, b) => b.width - a.width);
+    const prunableCrown = segments.filter(s => !s.isRoot && s.depth > 3 && s.finished)
+      .sort((a, b) => b.width - a.width);
+
+    // guarantee roots a minimum share of the budget so the much larger crown
+    // population can't starve them out
+    const rootBudget = Math.min(prunableRoots.length, Math.max(200, Math.floor(remainingBudget * 0.4)));
+    const crownBudget = Math.max(0, remainingBudget - rootBudget);
+
+    segments = protectedSegs
+      .concat(prunableRoots.slice(0, rootBudget))
+      .concat(prunableCrown.slice(0, crownBudget));
+  }
+
+  // stop the render loop once growth AND leaf fade-in have fully settled,
+  // instead of redrawing a static tree 60x/sec forever — freezing before
+  // leaves finish fading in was leaving an incomplete-looking final frame
+  const stillGrowing = newSegments.length > 0 || newLeaves.length > 0
+    || segments.some(s => !s.finished)
+    || leaves.some(l => l.opacity < 1);
+  if (stillGrowing) {
+    rafId = requestAnimationFrame(animate);
+  } else {
+    loopActive = false; // frame stays frozen on the completed tree until restart
+    const tagline = document.getElementById('heroTagline');
+    if (tagline && !tagline.classList.contains('visible')) tagline.classList.add('visible');
+  }
+}
+
+ensureLoopRunning();
+</script>
+
+<script>
+// ─── STACKED SECTION SCROLL OFFSETS ────────────────────────────────────────
+// Each stacked section uses position:sticky with top:0, which means it
+// pins the instant it reaches the top of the viewport — freezing its whole
+// box immediately, even if the section is taller than one viewport (so any
+// content past the fold never gets a chance to scroll normally). Giving it
+// a negative top offset equal to (viewport height - section height) delays
+// the pin until you've scrolled through that extra content first, so tall
+// sections still read top-to-bottom before the next section covers them.
+(function() {
+  const stackedSections = document.querySelectorAll('.hero, .services, .work, .about-strip');
+
+  function adjustStickyOffsets() {
+    const vh = window.innerHeight;
+    stackedSections.forEach(el => {
+      const h = el.offsetHeight;
+      el.style.top = Math.min(0, vh - h) + 'px';
     });
   }
-}
 
-const CELL = 72;
-let mGrid = {};
-
-function buildGrid() {
-  mGrid = {};
-  for (let b of birds) {
-    const key = `${Math.floor(b.x / CELL)},${Math.floor(b.y / CELL)}`;
-    if (!mGrid[key]) mGrid[key] = [];
-    mGrid[key].push(b);
-  }
-}
-
-function getNeighbors(b, radius) {
-  const result = [];
-  const cells = Math.ceil(radius / CELL);
-  const cx = Math.floor(b.x / CELL), cy = Math.floor(b.y / CELL);
-  for (let ix = cx - cells; ix <= cx + cells; ix++) {
-    for (let iy = cy - cells; iy <= cy + cells; iy++) {
-      const bucket = mGrid[`${ix},${iy}`];
-      if (bucket) for (let n of bucket) if (n !== b) result.push(n);
-    }
-  }
-  return result;
-}
-
-function mLoop() {
-  requestAnimationFrame(mLoop);
-  ctx.fillStyle = 'rgba(10, 10, 10, 0.28)';
-  ctx.fillRect(0, 0, W, H);
-
-  mFrame++;
-  phaseTimer++;
-
-  if (phase === 'flock' && phaseTimer >= PHASE_FLOCK) setPhase('gather');
-  else if (phase === 'gather' && phaseTimer >= PHASE_GATHER) setPhase('burst');
-  else if (phase === 'burst' && phaseTimer >= PHASE_BURST) {
-    phase = 'done';
-    ctx.clearRect(0, 0, W, H);
-  }
-
-  if (phase === 'done') return;
-
-  buildGrid();
-  for (let b of birds) b.update();
-  for (let b of birds) b.draw();
-
-  if (phase === 'gather' || phase === 'hold') {
-    const cx = textZone.x + textZone.w / 2;
-    const cy = textZone.y + textZone.h / 2;
-    const prog = phase === 'gather' ? Math.min(1, phaseTimer / PHASE_GATHER) : 1;
-    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, textZone.w * 0.9);
-    grad.addColorStop(0, `rgba(180, 230, 20, ${0.06 * prog})`);
-    grad.addColorStop(1, 'transparent');
-    ctx.fillStyle = grad;
-    ctx.fillRect(textZone.x - textZone.w * 0.3, textZone.y - textZone.h, textZone.w * 1.6, textZone.h * 3);
-  }
-}
-
-mLoop();
+  adjustStickyOffsets();
+  window.addEventListener('resize', adjustStickyOffsets);
+  window.addEventListener('load', adjustStickyOffsets);
+})();
 </script>
 </body>
 </html>
