@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Don't Own Your Website — Ethos Design Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #0A0A0A;
+    --forest:  #134D1E;
+    --green:   #1A7A2E;
+    --lime:    #C8F135;
+    --white:   #FFFFFF;
+    --off:     #F5F5F0;
+    --mist:    #E8F0E9;
+    --gray:    #8A8A80;
+    --slate:   #3A4A3C;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    font-size: 14px;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--lime);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--lime);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease, width 0.25s ease, height 0.25s ease, opacity 0.2s ease;
+    opacity: 0.5;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* TOP NAV */
+  .top-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    padding: 14px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,241,53,0.1);
+  }
+  .nav-cta {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 11px 22px;
+    background: transparent;
+    border: 1.5px solid var(--lime);
+    color: var(--lime);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--lime); color: var(--black); }
+  .nav-logo {
+    display: flex; align-items: center; gap: 5px;
+    text-decoration: none;
+  }
+  .nav-icon {
+    width: 72px; height: 72px;
+    background: none; border: none;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .nav-wordmark {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--lime); letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .nav-sub {
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.7); margin-top: 4px;
+  }
+
+  /* SIDE DRAWER */
+  .side-drawer {
+    position: fixed; top: 0; right: 0;
+    height: 100vh; z-index: 90;
+    display: flex; flex-direction: row; align-items: center;
+  }
+  .drawer-toggle {
+    flex-shrink: 0;
+    width: 28px;
+    height: 72px;
+    background: var(--lime);
+    border: none;
+    color: var(--black);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px 0 0 4px;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .drawer-tooltip {
+    position: absolute;
+    right: 36px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--lime);
+    padding: 4px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .drawer-toggle:hover .drawer-tooltip { opacity: 1; }
+  .drawer-toggle:hover { background: #d4ff40; }
+  .chevron {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+  .side-drawer.open .chevron { transform: rotate(180deg); }
+  .drawer-content {
+    width: 0; overflow: hidden;
+    background: var(--black);
+    border-left: 1px solid rgba(200,241,53,0.15);
+    height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+  }
+  .side-drawer.open .drawer-content {
+    width: 280px;
+    padding: 60px 40px;
+  }
+  .drawer-nav {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .drawer-link {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 22px; font-weight: 700;
+    letter-spacing: -0.01em;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: 0; transform: translateX(20px);
+    transition: color 0.2s, font-size 0.2s, opacity 0.3s ease, transform 0.3s ease;
+  }
+  .side-drawer.open .drawer-link { opacity: 1; transform: translateX(0); }
+  .side-drawer.open .drawer-link:nth-child(1) { transition-delay: 0.1s; }
+  .side-drawer.open .drawer-link:nth-child(2) { transition-delay: 0.15s; }
+  .side-drawer.open .drawer-link:nth-child(3) { transition-delay: 0.2s; }
+  .side-drawer.open .drawer-link:nth-child(4) { transition-delay: 0.25s; }
+  .side-drawer.open .drawer-link:nth-child(5) { transition-delay: 0.3s; }
+  .drawer-link:hover { color: var(--lime); font-size: 28px; }
+  .drawer-link.active { color: var(--lime); font-size: 28px; }
+  .drawer-bottom {
+    margin-top: 48px; display: flex;
+    flex-direction: column; gap: 16px;
+    opacity: 0; transition: opacity 0.3s ease 0.3s;
+    white-space: nowrap;
+  }
+  .side-drawer.open .drawer-bottom { opacity: 1; }
+
+  /* LANG DROPDOWN */
+  .lang-dropdown { position: relative; }
+  .lang-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--lime);
+    background: transparent;
+    border: 1.5px solid rgba(200,241,53,0.4);
+    padding: 11px 16px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .lang-btn:hover { border-color: var(--lime); background: rgba(200,241,53,0.08); }
+  .lang-chevron { font-size: 10px; }
+  .lang-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--black);
+    border: 1.5px solid rgba(200,241,53,0.2);
+    min-width: 140px;
+    z-index: 300;
+  }
+  .lang-item {
+    display: block;
+    padding: 10px 16px;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+  }
+  .lang-item:hover, .lang-item.active {
+    color: var(--lime);
+    background: rgba(200,241,53,0.06);
+  }
+
+  /* ARTICLE */
+  .article-header {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 160px 56px 40px;
+  }
+  .article-back {
+    display: inline-block;
+    margin-bottom: 32px;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .article-back:hover { color: var(--lime); }
+  .article-tag {
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--lime); background: rgba(200,241,53,0.12);
+    border: 1px solid rgba(200,241,53,0.3);
+    padding: 5px 12px; display: inline-block;
+    margin-bottom: 20px;
+  }
+  .article-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(34px, 5vw, 54px);
+    font-weight: 900; letter-spacing: -0.02em;
+    line-height: 1.08;
+    margin-bottom: 20px;
+  }
+  .article-deck {
+    font-size: 19px; font-weight: 300;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.6;
+    max-width: 640px;
+  }
+  .article-meta {
+    margin-top: 28px;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .article-body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 56px 140px;
+    font-size: 17px;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.82);
+  }
+  .article-body h2 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 27px; font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin: 52px 0 20px;
+  }
+  .article-body p { margin-bottom: 24px; }
+  .article-body ul { margin: 0 0 28px 22px; }
+  .article-body li { margin-bottom: 14px; }
+  .article-body strong { color: var(--white); font-weight: 600; }
+  .article-body hr {
+    border: none; border-top: 1px solid rgba(255,255,255,0.15);
+    margin: 48px 0;
+  }
+  .article-note {
+    font-style: italic;
+    color: rgba(255,255,255,0.55);
+    font-size: 15px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(200,241,53,0.1);
+    padding: 48px 56px;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 24px;
+    position: relative; z-index: 100;
+  }
+  .footer-logo {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .footer-wordmark {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--lime); letter-spacing: 0.02em;
+  }
+  .footer-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+  .footer-links a {
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.85); text-decoration: none;
+    transition: color 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .footer-links a:hover { color: var(--lime); transform: scale(1.12); }
+  .footer-copy {
+    font-size: 10px; color: rgba(255,255,255,0.7);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- TOP NAV -->
+<nav class="top-nav" id="topNav">
+  <a href="../../index.html" class="nav-logo">
+    <div class="nav-icon">
+      <svg width="64" height="64" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<line x1="50.00" y1="50.00" x2="50.00" y2="63.00" stroke="#C8F135" stroke-width="5.50" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="63.00" x2="54.25" y2="71.34" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="71.34" x2="59.70" y2="75.30" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="59.70" y1="75.30" x2="64.49" y2="76.06" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="64.49" y1="76.06" x2="67.82" y2="74.98" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="64.49" y1="76.06" x2="67.32" y2="78.11" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="59.70" y1="75.30" x2="61.90" y2="79.62" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="61.90" y1="79.62" x2="64.73" y2="81.68" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="61.90" y1="79.62" x2="61.90" y2="83.12" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="71.34" x2="54.25" y2="78.08" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="78.08" x2="56.45" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="56.45" y1="82.40" x2="59.28" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="56.45" y1="82.40" x2="56.45" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="78.08" x2="52.05" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="52.05" y1="82.40" x2="52.05" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="52.05" y1="82.40" x2="49.22" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="63.00" x2="45.75" y2="71.34" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="71.34" x2="45.75" y2="78.08" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="78.08" x2="47.95" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="47.95" y1="82.40" x2="50.78" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="47.95" y1="82.40" x2="47.95" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="78.08" x2="43.55" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="43.55" y1="82.40" x2="43.55" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="43.55" y1="82.40" x2="40.72" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="71.34" x2="40.30" y2="75.30" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="40.30" y1="75.30" x2="38.10" y2="79.62" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="38.10" y1="79.62" x2="38.10" y2="83.12" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="38.10" y1="79.62" x2="35.27" y2="81.68" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="40.30" y1="75.30" x2="35.51" y2="76.06" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="35.51" y1="76.06" x2="32.68" y2="78.11" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="35.51" y1="76.06" x2="32.18" y2="74.98" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="50.00" x2="50.00" y2="33.00" stroke="#C8F135" stroke-width="5.50" stroke-linecap="round" opacity="1.0"/>
+<line x1="50.00" y1="33.00" x2="44.44" y2="22.09" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="22.09" x2="37.31" y2="16.91" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.31" y1="16.91" x2="31.05" y2="15.92" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="31.05" y1="15.92" x2="26.70" y2="17.33" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="26.70" y1="17.33" x2="24.38" y2="19.66" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="26.70" y1="17.33" x2="23.45" y2="16.82" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="31.05" y1="15.92" x2="27.35" y2="13.24" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="27.35" y1="13.24" x2="24.10" y2="12.72" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="27.35" y1="13.24" x2="25.86" y2="10.31" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.31" y1="16.91" x2="34.43" y2="11.26" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="11.26" x2="30.74" y2="8.58" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="30.74" y1="8.58" x2="27.49" y2="8.06" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="30.74" y1="8.58" x2="29.24" y2="5.64" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="11.26" x2="34.43" y2="6.69" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="6.69" x2="32.94" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="6.69" x2="35.93" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="22.09" x2="44.44" y2="13.28" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="13.28" x2="41.56" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="7.63" x2="37.87" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.87" y1="4.94" x2="34.62" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.87" y1="4.94" x2="36.37" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="7.63" x2="41.56" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="3.06" x2="40.07" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="3.06" x2="43.06" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="13.28" x2="47.32" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="7.63" x2="47.32" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="3.06" x2="45.83" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="3.06" x2="48.82" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="7.63" x2="51.02" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="51.02" y1="4.94" x2="52.51" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="51.02" y1="4.94" x2="54.27" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="50.00" y1="33.00" x2="55.56" y2="22.09" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="22.09" x2="55.56" y2="13.28" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="13.28" x2="52.68" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="7.63" x2="48.98" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="48.98" y1="4.94" x2="45.73" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="48.98" y1="4.94" x2="47.49" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="7.63" x2="52.68" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="3.06" x2="51.18" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="3.06" x2="54.17" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="13.28" x2="58.44" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="7.63" x2="58.44" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="3.06" x2="56.94" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="3.06" x2="59.93" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="7.63" x2="62.13" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.13" y1="4.94" x2="63.63" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.13" y1="4.94" x2="65.38" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="22.09" x2="62.69" y2="16.91" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.69" y1="16.91" x2="65.57" y2="11.26" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="11.26" x2="65.57" y2="6.69" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="6.69" x2="64.07" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="6.69" x2="67.06" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="11.26" x2="69.26" y2="8.58" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="69.26" y1="8.58" x2="70.76" y2="5.64" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="69.26" y1="8.58" x2="72.51" y2="8.06" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.69" y1="16.91" x2="68.95" y2="15.92" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="68.95" y1="15.92" x2="72.65" y2="13.24" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="72.65" y1="13.24" x2="74.14" y2="10.31" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="72.65" y1="13.24" x2="75.90" y2="12.72" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="68.95" y1="15.92" x2="73.30" y2="17.33" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="73.30" y1="17.33" x2="76.55" y2="16.82" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="73.30" y1="17.33" x2="75.62" y2="19.66" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<circle cx="24.38" cy="19.66" r="2.0" fill="#D6FA64"/>
+<circle cx="23.45" cy="16.82" r="2.0" fill="#D6FA64"/>
+<circle cx="24.10" cy="12.72" r="2.0" fill="#D6FA64"/>
+<circle cx="25.86" cy="10.31" r="2.0" fill="#D6FA64"/>
+<circle cx="27.49" cy="8.06" r="2.0" fill="#D6FA64"/>
+<circle cx="29.24" cy="5.64" r="2.0" fill="#D6FA64"/>
+<circle cx="32.94" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="35.93" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="34.62" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="36.37" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="40.07" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="43.06" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="45.83" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="48.82" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="52.51" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="54.27" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="45.73" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="47.49" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="51.18" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="54.17" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="56.94" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="59.93" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="63.63" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="65.38" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="64.07" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="67.06" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="70.76" cy="5.64" r="2.0" fill="#D6FA64"/>
+<circle cx="72.51" cy="8.06" r="2.0" fill="#D6FA64"/>
+<circle cx="74.14" cy="10.31" r="2.0" fill="#D6FA64"/>
+<circle cx="75.90" cy="12.72" r="2.0" fill="#D6FA64"/>
+<circle cx="76.55" cy="16.82" r="2.0" fill="#D6FA64"/>
+<circle cx="75.62" cy="19.66" r="2.0" fill="#D6FA64"/>
+</svg>
+    </div>
+    <div>
+      <div class="nav-wordmark">ETHOS DESIGN LAB</div>
+    </div>
+  </a>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="lang-dropdown">
+      <button class="lang-btn">EN <span class="lang-chevron">▾</span></button>
+      <div class="lang-menu">
+        <a class="lang-item active" data-lang="EN">English</a>
+        <a class="lang-item" data-lang="IT">Italian</a>
+        <a class="lang-item" data-lang="ES">Spanish</a>
+        <a class="lang-item" data-lang="FR">French</a>
+        <a class="lang-item" data-lang="DE">German</a>
+      </div>
+    </div>
+    <a href="../../index.html#contact" class="nav-cta">Start a Project</a>
+  </div>
+</nav>
+
+<!-- SIDE DRAWER -->
+<div class="side-drawer" id="sideDrawer">
+  <button class="drawer-toggle" id="drawerToggle">
+    <span class="chevron">‹</span>
+    <span class="drawer-tooltip">MENU</span>
+  </button>
+  <div class="drawer-content">
+    <nav class="drawer-nav">
+      <a href="../../index.html#services" class="drawer-link">Services</a>
+      <a href="../../index.html#work" class="drawer-link">Work</a>
+      <a href="../../index.html#about" class="drawer-link">About</a>
+      <a href="../../index.html#blog" class="drawer-link active">Blog</a>
+      <a href="../../index.html#contact" class="drawer-link">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<article>
+  <div class="article-header">
+    <a href="../../index.html#blog" class="article-back">← All Insights</a>
+    <div class="article-tag">Ownership</div>
+    <h1 class="article-title">You Don't Own Your Website</h1>
+    <p class="article-deck">Why living entirely inside Squarespace, Wix, or Shopify makes you a tenant — not an owner.</p>
+    <div class="article-meta">7 min read · June 2026</div>
+  </div>
+
+  <div class="article-body">
+    <p>Here's a question most business owners have never actually asked themselves: if your website platform disappeared tomorrow, doubled its prices overnight, or suspended your account — what would you actually be left with?</p>
+    <p>For a lot of small businesses and B-Corps, the honest answer is: nothing. No copy of your content in a usable format. No control over your own domain routing. No way to simply "move" your site somewhere else, because there was never really a <em>site</em> to move — just a rented space inside someone else's system, dressed up to look like your own.</p>
+    <p>This is platform capture, and it's worth understanding clearly, because it's rarely explained to the people it affects most.</p>
+
+    <h2>What "platform capture" actually means</h2>
+    <p>When you build your business on Squarespace, Wix, Shopify, or similar all-in-one platforms, you're not really building a website. You're building <em>inside</em> someone else's product, using their tools, their infrastructure, and their rules.</p>
+    <p>That distinction sounds abstract until you look at what it actually means in practice:</p>
+    <ul>
+      <li><strong>Your content lives in their format.</strong> Export tools are often limited, and what comes out rarely resembles what you built — layouts break, custom styling disappears, and structured content becomes a mess of plain text.</li>
+      <li><strong>Your site's performance depends on their infrastructure.</strong> You didn't choose the servers, the caching strategy, or the code quality running underneath your pages. If it's slow, bloated, or has accessibility issues, that's largely out of your hands.</li>
+      <li><strong>Your pricing is their decision.</strong> Many of these platforms have quietly raised prices, restructured tiers, or pushed users toward more expensive plans over time. As a tenant, you don't get a vote.</li>
+      <li><strong>Your business depends on their continued existence.</strong> Platforms get acquired, sunset, or deprioritized. It's happened before, and businesses built entirely on top of them had no real recourse.</li>
+    </ul>
+    <p>None of this is a conspiracy. It's simply how the business model works: the platform's job is to keep you inside it, paying monthly, for as long as possible. That's not a criticism of the people who work there — it's just the incentive structure of renting.</p>
+
+    <h2>"But it looks like my website"</h2>
+    <p>This is the part that catches people off guard. A well-designed Squarespace or Wix site can look completely polished, professional, and bespoke. The visual layer is genuinely yours — the colors, the photos, the words you wrote.</p>
+    <p>But underneath that layer, none of the actual <em>infrastructure</em> belongs to you. You don't own the code. You can't take your site's backend and move it to a different host. You can't hand it to a different developer and say "here, pick up where this left off," because there's no codebase to hand over — just a locked configuration inside a platform you're renting access to.</p>
+    <p>It's the digital equivalent of decorating a rented apartment beautifully and then realizing, only when you try to move, that you never actually owned the walls.</p>
+
+    <h2>Why this matters more for mission-driven businesses</h2>
+    <p>If you're a B-Corp or a values-driven SME, platform capture carries an extra layer of tension. A lot of these all-in-one platforms are US-based companies with data practices, hosting locations, and terms of service that may not reflect the standards you've built your own business around — GDPR compliance, data minimization, transparency about where customer information actually lives.</p>
+    <p>You can build the most ethical, thoughtful brand in the world, and still have your customers' data sitting on infrastructure you have no visibility into, governed by a privacy policy you didn't write and can't negotiate. That's a real gap between what a business says it stands for and what it's actually built on.</p>
+
+    <h2>What ownership actually looks like</h2>
+    <p>None of this means every small business needs a custom-built, fully bespoke web application from day one — that would be overkill for plenty of businesses, and there's nothing wrong with using a page builder to get started. The problem isn't using tools. The problem is not knowing the difference between using a tool and being trapped inside one.</p>
+    <p>Real ownership looks like:</p>
+    <ul>
+      <li><strong>A codebase you actually hold</strong>, even if someone else built it for you — one that can be handed to any competent developer, not just the original platform's ecosystem.</li>
+      <li><strong>Hosting you choose</strong>, with visibility into where your data physically lives and who has access to it.</li>
+      <li><strong>A domain and infrastructure that are portable</strong> — if you want to leave a host, an email provider, or a developer, you can, without losing your site, your data, or your history.</li>
+      <li><strong>No mystery dependencies</strong> — no situation where a single company's pricing decision or shutdown notice could take your business offline.</li>
+    </ul>
+    <p>This doesn't have to be complicated or expensive. It's a different starting posture: build (or ask your developer to build) in a way where you always retain the keys, rather than being handed a beautifully decorated room you can never actually own.</p>
+
+    <h2>The real question to ask</h2>
+    <p>Not "does my website look good" — plenty of platform-built sites do. The question is: <strong>if I needed to leave tomorrow, could I?</strong></p>
+    <p>If the honest answer is no, that's not a reason to panic or rebuild everything overnight. It's just worth knowing clearly, so it's a choice you're making on purpose — not a dependency you backed into without realizing it.</p>
+
+    <hr>
+    <p class="article-note">This is the first in a short series on digital ownership for small businesses. Next: what your web agency isn't telling you about the hidden costs baked into "easy" website solutions.</p>
+  </div>
+</article>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="nav-icon">
+      <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<line x1="50.00" y1="50.00" x2="50.00" y2="63.00" stroke="#C8F135" stroke-width="5.50" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="63.00" x2="54.25" y2="71.34" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="71.34" x2="59.70" y2="75.30" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="59.70" y1="75.30" x2="64.49" y2="76.06" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="64.49" y1="76.06" x2="67.82" y2="74.98" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="64.49" y1="76.06" x2="67.32" y2="78.11" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="59.70" y1="75.30" x2="61.90" y2="79.62" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="61.90" y1="79.62" x2="64.73" y2="81.68" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="61.90" y1="79.62" x2="61.90" y2="83.12" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="71.34" x2="54.25" y2="78.08" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="78.08" x2="56.45" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="56.45" y1="82.40" x2="59.28" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="56.45" y1="82.40" x2="56.45" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="54.25" y1="78.08" x2="52.05" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="52.05" y1="82.40" x2="52.05" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="52.05" y1="82.40" x2="49.22" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="63.00" x2="45.75" y2="71.34" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="71.34" x2="45.75" y2="78.08" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="78.08" x2="47.95" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="47.95" y1="82.40" x2="50.78" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="47.95" y1="82.40" x2="47.95" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="78.08" x2="43.55" y2="82.40" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="43.55" y1="82.40" x2="43.55" y2="85.90" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="43.55" y1="82.40" x2="40.72" y2="84.46" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="45.75" y1="71.34" x2="40.30" y2="75.30" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="0.55"/>
+<line x1="40.30" y1="75.30" x2="38.10" y2="79.62" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="38.10" y1="79.62" x2="38.10" y2="83.12" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="38.10" y1="79.62" x2="35.27" y2="81.68" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="40.30" y1="75.30" x2="35.51" y2="76.06" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="0.55"/>
+<line x1="35.51" y1="76.06" x2="32.68" y2="78.11" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="35.51" y1="76.06" x2="32.18" y2="74.98" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="0.55"/>
+<line x1="50.00" y1="50.00" x2="50.00" y2="33.00" stroke="#C8F135" stroke-width="5.50" stroke-linecap="round" opacity="1.0"/>
+<line x1="50.00" y1="33.00" x2="44.44" y2="22.09" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="22.09" x2="37.31" y2="16.91" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.31" y1="16.91" x2="31.05" y2="15.92" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="31.05" y1="15.92" x2="26.70" y2="17.33" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="26.70" y1="17.33" x2="24.38" y2="19.66" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="26.70" y1="17.33" x2="23.45" y2="16.82" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="31.05" y1="15.92" x2="27.35" y2="13.24" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="27.35" y1="13.24" x2="24.10" y2="12.72" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="27.35" y1="13.24" x2="25.86" y2="10.31" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.31" y1="16.91" x2="34.43" y2="11.26" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="11.26" x2="30.74" y2="8.58" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="30.74" y1="8.58" x2="27.49" y2="8.06" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="30.74" y1="8.58" x2="29.24" y2="5.64" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="11.26" x2="34.43" y2="6.69" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="6.69" x2="32.94" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="34.43" y1="6.69" x2="35.93" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="22.09" x2="44.44" y2="13.28" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="13.28" x2="41.56" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="7.63" x2="37.87" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.87" y1="4.94" x2="34.62" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="37.87" y1="4.94" x2="36.37" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="7.63" x2="41.56" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="3.06" x2="40.07" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="41.56" y1="3.06" x2="43.06" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="44.44" y1="13.28" x2="47.32" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="7.63" x2="47.32" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="3.06" x2="45.83" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="3.06" x2="48.82" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="47.32" y1="7.63" x2="51.02" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="51.02" y1="4.94" x2="52.51" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="51.02" y1="4.94" x2="54.27" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="50.00" y1="33.00" x2="55.56" y2="22.09" stroke="#C8F135" stroke-width="3.96" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="22.09" x2="55.56" y2="13.28" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="13.28" x2="52.68" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="7.63" x2="48.98" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="48.98" y1="4.94" x2="45.73" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="48.98" y1="4.94" x2="47.49" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="7.63" x2="52.68" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="3.06" x2="51.18" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="52.68" y1="3.06" x2="54.17" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="13.28" x2="58.44" y2="7.63" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="7.63" x2="58.44" y2="3.06" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="3.06" x2="56.94" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="3.06" x2="59.93" y2="0.13" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="58.44" y1="7.63" x2="62.13" y2="4.94" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.13" y1="4.94" x2="63.63" y2="2.01" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.13" y1="4.94" x2="65.38" y2="4.43" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="55.56" y1="22.09" x2="62.69" y2="16.91" stroke="#C8F135" stroke-width="2.85" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.69" y1="16.91" x2="65.57" y2="11.26" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="11.26" x2="65.57" y2="6.69" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="6.69" x2="64.07" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="6.69" x2="67.06" y2="3.76" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="65.57" y1="11.26" x2="69.26" y2="8.58" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="69.26" y1="8.58" x2="70.76" y2="5.64" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="69.26" y1="8.58" x2="72.51" y2="8.06" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="62.69" y1="16.91" x2="68.95" y2="15.92" stroke="#C8F135" stroke-width="2.05" stroke-linecap="round" opacity="1.0"/>
+<line x1="68.95" y1="15.92" x2="72.65" y2="13.24" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="72.65" y1="13.24" x2="74.14" y2="10.31" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="72.65" y1="13.24" x2="75.90" y2="12.72" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="68.95" y1="15.92" x2="73.30" y2="17.33" stroke="#C8F135" stroke-width="1.48" stroke-linecap="round" opacity="1.0"/>
+<line x1="73.30" y1="17.33" x2="76.55" y2="16.82" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<line x1="73.30" y1="17.33" x2="75.62" y2="19.66" stroke="#C8F135" stroke-width="1.06" stroke-linecap="round" opacity="1.0"/>
+<circle cx="24.38" cy="19.66" r="2.0" fill="#D6FA64"/>
+<circle cx="23.45" cy="16.82" r="2.0" fill="#D6FA64"/>
+<circle cx="24.10" cy="12.72" r="2.0" fill="#D6FA64"/>
+<circle cx="25.86" cy="10.31" r="2.0" fill="#D6FA64"/>
+<circle cx="27.49" cy="8.06" r="2.0" fill="#D6FA64"/>
+<circle cx="29.24" cy="5.64" r="2.0" fill="#D6FA64"/>
+<circle cx="32.94" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="35.93" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="34.62" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="36.37" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="40.07" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="43.06" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="45.83" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="48.82" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="52.51" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="54.27" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="45.73" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="47.49" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="51.18" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="54.17" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="56.94" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="59.93" cy="0.13" r="2.0" fill="#D6FA64"/>
+<circle cx="63.63" cy="2.01" r="2.0" fill="#D6FA64"/>
+<circle cx="65.38" cy="4.43" r="2.0" fill="#D6FA64"/>
+<circle cx="64.07" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="67.06" cy="3.76" r="2.0" fill="#D6FA64"/>
+<circle cx="70.76" cy="5.64" r="2.0" fill="#D6FA64"/>
+<circle cx="72.51" cy="8.06" r="2.0" fill="#D6FA64"/>
+<circle cx="74.14" cy="10.31" r="2.0" fill="#D6FA64"/>
+<circle cx="75.90" cy="12.72" r="2.0" fill="#D6FA64"/>
+<circle cx="76.55" cy="16.82" r="2.0" fill="#D6FA64"/>
+<circle cx="75.62" cy="19.66" r="2.0" fill="#D6FA64"/>
+</svg>
+    </div>
+    <div>
+      <div class="footer-wordmark">ETHOS DESIGN LAB</div>
+      <div class="nav-sub">Design. Systems. Infrastructure.</div>
+    </div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="../../index.html#work">Work</a></li>
+    <li><a href="../../index.html#services">Services</a></li>
+    <li><a href="../../index.html#about">About</a></li>
+    <li><a href="../../index.html#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Ethos Design Lab · ethosdesignlab.com</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  const CURSOR_LIME    = '#C8F135';
+  const CURSOR_DKGREEN = '#134D1E';
+  const CURSOR_BLACK   = '#0A0A0A';
+
+  function getCursorColor(x, y) {
+    cursor.style.visibility = 'hidden';
+    ring.style.visibility = 'hidden';
+    const el = document.elementFromPoint(x, y);
+    cursor.style.visibility = '';
+    ring.style.visibility = '';
+    if (!el) return CURSOR_LIME;
+    let checkNode = el;
+    for (let i = 0; i < 6; i++) {
+      if (!checkNode) break;
+      if (checkNode.classList && (
+        checkNode.classList.contains('lang-dropdown') ||
+        checkNode.classList.contains('lang-menu') ||
+        checkNode.classList.contains('lang-btn') ||
+        checkNode.classList.contains('lang-item')
+      )) {
+        return CURSOR_LIME;
+      }
+      checkNode = checkNode.parentElement;
+    }
+    let node = el;
+    for (let i = 0; i < 8; i++) {
+      if (!node || node === document.documentElement) break;
+      const bg = window.getComputedStyle(node).backgroundColor;
+      if (!bg || bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+        node = node.parentElement; continue;
+      }
+      const m = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+      if (!m) { node = node.parentElement; continue; }
+      const r = +m[1], g = +m[2], b = +m[3];
+      if (g > r * 2 && b < 80) return CURSOR_LIME;
+      if (r > 180 && g > 220 && b < 100) return CURSOR_BLACK;
+      if (r > 190 && g > 190 && b > 170) return CURSOR_DKGREEN;
+      return CURSOR_LIME;
+    }
+    return CURSOR_LIME;
+  }
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    const col = getCursorColor(mx, my);
+    cursor.style.background = col;
+    ring.style.borderColor = col;
+  });
+
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '18px'; cursor.style.height = '18px';
+      ring.style.width = '52px'; ring.style.height = '52px';
+      ring.style.opacity = '0.8';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '10px'; cursor.style.height = '10px';
+      ring.style.width = '36px'; ring.style.height = '36px';
+      ring.style.opacity = '0.5';
+    });
+  });
+
+  // Side drawer
+  const drawer = document.getElementById('sideDrawer');
+  const toggle = document.getElementById('drawerToggle');
+  toggle.addEventListener('click', () => {
+    drawer.classList.toggle('open');
+  });
+
+  // Top nav scroll
+  const topNav = document.getElementById('topNav');
+  window.addEventListener('scroll', () => {
+    topNav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Language dropdown
+  const langBtn = document.querySelector('.lang-btn');
+  const langMenu = document.querySelector('.lang-menu');
+
+  langBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = langMenu.style.display === 'block';
+    langMenu.style.display = isOpen ? 'none' : 'block';
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.lang-dropdown')) {
+      langMenu.style.display = 'none';
+    }
+  });
+
+  document.querySelectorAll('.lang-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.lang-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      document.querySelector('.lang-btn').childNodes[0].textContent = item.dataset.lang + ' ';
+      langMenu.style.display = 'none';
+    });
+  });
+</script>
+</body>
+</html>
