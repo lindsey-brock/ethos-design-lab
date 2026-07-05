@@ -236,16 +236,14 @@
     margin: 0 auto;
     padding: 160px 56px 40px;
   }
-  .article-back {
-    display: inline-block;
-    margin-bottom: 32px;
+  .nav-insights-link {
     font-size: 11px; font-weight: 500;
     letter-spacing: 0.15em; text-transform: uppercase;
-    color: rgba(255,255,255,0.55);
+    color: rgba(255,255,255,0.75);
     text-decoration: none;
     transition: color 0.2s;
   }
-  .article-back:hover { color: var(--lime); }
+  .nav-insights-link:hover { color: var(--lime); }
   .article-tag {
     font-size: 9px; font-weight: 600;
     letter-spacing: 0.2em; text-transform: uppercase;
@@ -671,18 +669,16 @@
       <div class="nav-wordmark">ETHOS DESIGN LAB</div>
     </div>
   </a>
-  <div style="display:flex;align-items:center;gap:8px;">
+  <div style="display:flex;align-items:center;gap:24px;">
+    <a href="../../index.html#blog" class="nav-insights-link">← All Insights</a>
     <div class="lang-dropdown">
       <button class="lang-btn">EN <span class="lang-chevron">▾</span></button>
       <div class="lang-menu">
         <a class="lang-item active" data-lang="EN">English</a>
-        <a class="lang-item" data-lang="IT">Italian</a>
-        <a class="lang-item" data-lang="ES">Spanish</a>
-        <a class="lang-item" data-lang="FR">French</a>
-        <a class="lang-item" data-lang="DE">German</a>
+        <a class="lang-item" data-lang="IT">Italiano</a>
+        <a class="lang-item" data-lang="ES">Español</a>
       </div>
     </div>
-    <a href="../../index.html#contact" class="nav-cta">Start a Project</a>
   </div>
 </nav>
 
@@ -706,7 +702,6 @@
 <!-- ARTICLE -->
 <article>
   <div class="article-header">
-    <a href="../../index.html#blog" class="article-back">← All Insights</a>
     <div class="article-tag">Infrastructure</div>
     <h1 class="article-title">What Independent Web Infrastructure Actually Looks Like</h1>
     <p class="article-deck">The alternative to platform capture and agency lock-in — in practical terms.</p>
